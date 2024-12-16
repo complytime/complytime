@@ -7,7 +7,7 @@ import (
 
 	"github.com/complytime/complytime/cmd/complytime/option"
 
-	"github.com/complytime/complytime/version"
+	"github.com/complytime/complytime/internal/version"
 )
 
 // versionCmd creates a new cobra.Command for the version subcommand.

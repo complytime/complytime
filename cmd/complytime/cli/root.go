@@ -31,6 +31,7 @@ func New() *cobra.Command {
 	o.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(versionCmd(&o))
 	cmd.AddCommand(scanCmd(&o))
+	cmd.AddCommand(generateCmd(&o))
 
 	return cmd
 }

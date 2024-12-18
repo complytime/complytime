@@ -33,4 +33,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/oscal-compass/compliance-to-policy-go/v2 => github.com/complytime/compliance-to-policy-go/v2 v2.0.0-20241216230036-7357faab3268
+replace github.com/oscal-compass/compliance-to-policy-go/v2 => github.com/complytime/compliance-to-policy-go/v2 v2.0.0-20241218180447-536929e175fb

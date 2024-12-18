@@ -59,11 +59,14 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
+	// Ensure all the plugin launch above are cleaned up
+	defer manager.Clean()
+
 	allResults, err := manager.AggregateResults(cmd.Context(), plugins)
 	if err != nil {
 		return err
 	}
-	manager.Clean()
+
 	for _, result := range allResults {
 		_, _ = fmt.Fprintf(opts.Out, "Result:\n%s", result)
 	}

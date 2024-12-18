@@ -10,6 +10,8 @@ import (
 
 func TestApplicationDirectory(t *testing.T) {
 	tmpDir := os.TempDir()
+	defer os.RemoveAll(tmpDir)
+
 	appDir, err := newApplicationDirectory(tmpDir, false)
 	require.NoError(t, err)
 

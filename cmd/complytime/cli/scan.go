@@ -4,9 +4,11 @@ package cli
 
 import (
 	"fmt"
+	"io"
 	"path/filepath"
 
 	"github.com/oscal-compass/compliance-to-policy-go/v2/framework"
+	"github.com/oscal-compass/compliance-to-policy-go/v2/policy"
 	"github.com/spf13/cobra"
 
 	"github.com/complytime/complytime/cmd/complytime/option"
@@ -27,9 +29,11 @@ func scanCmd(common *option.Common) *cobra.Command {
 		Short:        "Scan environment with assessment plan",
 		Example:      "complytime scan assessment-plan.json",
 		SilenceUsage: true,
-		Args:         cobra.ExactArgs(1),
+		Args:         cobra.RangeArgs(0, 1),
 		PreRun: func(cmd *cobra.Command, args []string) {
-			scanOpts.assessmentPlanPath = filepath.Clean(args[0])
+			if len(args) == 1 {
+				scanOpts.assessmentPlanPath = filepath.Clean(args[0])
+			}
 		},
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			return runScan(cmd, scanOpts)
@@ -39,7 +43,9 @@ func scanCmd(common *option.Common) *cobra.Command {
 
 func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	// Adding this message to the user for now because assessment Plans are unused
-	_, _ = fmt.Fprintf(opts.Out, "OSCAL Assessment Plans are not supported yet. The file %s will not be used\n", opts.assessmentPlanPath)
+	if opts.assessmentPlanPath != "" {
+		_, _ = fmt.Fprintf(opts.Out, "OSCAL Assessment Plans are not supported yet...\nThe file %s will not be used.\n", opts.assessmentPlanPath)
+	}
 
 	// Create the application directory if it does not exist
 	appDir, err := complytime.NewApplicationDirectory(true)
@@ -59,7 +65,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
-	// Ensure all the plugin launch above are cleaned up
+	// Ensure all the plugins launch above are cleaned up
 	defer manager.Clean()
 
 	allResults, err := manager.AggregateResults(cmd.Context(), plugins)
@@ -67,8 +73,24 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		return err
 	}
 
-	for _, result := range allResults {
-		_, _ = fmt.Fprintf(opts.Out, "Result:\n%s", result)
+	// This is a temporary solution for results processing.
+	return displayResults(opts.Out, allResults)
+}
+
+// displayResults write the results from the scan with the given io.Writer.
+func displayResults(writer io.Writer, allResults []policy.PVPResult) error {
+	_, _ = fmt.Fprintf(writer, "Processing %d result(s)...\n", len(allResults))
+	for _, results := range allResults {
+		for _, observation := range results.ObservationsByCheck {
+			_, _ = fmt.Fprintf(writer, "Observation: %s\n", observation.Title)
+			for _, sub := range observation.Subjects {
+				_, _ = fmt.Fprintf(writer, "Subject: %s\n", sub.Title)
+				_, _ = fmt.Fprintf(writer, "Resource: %s\n", sub.ResourceID)
+				_, _ = fmt.Fprintf(writer, "Result: %s\n", sub.Result.String())
+				_, _ = fmt.Fprintf(writer, "Reason: %s\n\n", sub.Reason)
+			}
+		}
+		_, _ = fmt.Fprintf(writer, "\n")
 	}
 	return nil
 }

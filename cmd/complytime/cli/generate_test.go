@@ -3,13 +3,17 @@
 package cli
 
 import (
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
+
+const assessmentPlan = "assessment-plan.json"
 
 func TestSetOptsFromArgs(t *testing.T) {
 	opts := &generateOptions{}
-	args := []string{"assessment-plan.json"}
+	args := []string{assessmentPlan}
 	setOptsFromArgs(args, opts)
-	fmt.Println(opts.assessmentPlanPath)
+
+	require.Equal(t, opts.assessmentPlanPath, assessmentPlan)
 }

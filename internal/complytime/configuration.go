@@ -67,7 +67,7 @@ func newApplicationDirectory(rootDir string, create bool) (ApplicationDirectory,
 func (a ApplicationDirectory) create() error {
 	for _, dir := range a.Dirs() {
 		if err := os.MkdirAll(dir, 0700); err != nil {
-			return err
+			return fmt.Errorf("unable to create directory %s: %w", dir, err)
 		}
 	}
 	return nil
@@ -92,9 +92,9 @@ func (a ApplicationDirectory) BundleDir() string {
 // Dirs returns all directories in the ApplicationDirectory.
 func (a ApplicationDirectory) Dirs() []string {
 	return []string{
-		a.AppDir(),
-		a.PluginDir(),
-		a.BundleDir(),
+		a.appDir,
+		a.pluginDir,
+		a.bundleDir,
 	}
 }
 
@@ -105,12 +105,11 @@ func (a ApplicationDirectory) Dirs() []string {
 func FindComponentDefinitions(bundleDir string) ([]oscalTypes.ComponentDefinition, error) {
 	items, err := os.ReadDir(bundleDir)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("unable to read bundle directory %s: %w", bundleDir, err)
 	}
 
 	var compDefBundles []oscalTypes.ComponentDefinition
 	for _, item := range items {
-
 		if !strings.HasSuffix(item.Name(), compDefSuffix) {
 			continue
 		}
@@ -142,7 +141,7 @@ func Config(a ApplicationDirectory) (*config.C2PConfig, error) {
 	cfg.PluginDir = a.PluginDir()
 	compDefBundles, err := FindComponentDefinitions(a.BundleDir())
 	if err != nil {
-		return cfg, err
+		return cfg, fmt.Errorf("unable to create configuration: %w", err)
 	}
 	cfg.ComponentDefinitions = compDefBundles
 	return cfg, nil

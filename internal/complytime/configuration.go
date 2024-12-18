@@ -22,9 +22,9 @@ const (
 	BundlesDir     = "bundles"
 )
 
-// ErrNotComponentDefinitionsFound returns an error indicated the supplied directory
+// ErrNoComponentDefinitionsFound returns an error indicated the supplied directory
 // does not contain component definitions that are detectable by complytime.
-var ErrNotComponentDefinitionsFound = errors.New("not component definitions found")
+var ErrNoComponentDefinitionsFound = errors.New("no component definitions found")
 
 // ApplicationDirectory represents the directories that make up
 // the complytime application directory.
@@ -130,7 +130,7 @@ func FindComponentDefinitions(bundleDir string) ([]oscalTypes.ComponentDefinitio
 		compDefBundles = append(compDefBundles, *definition)
 	}
 	if len(compDefBundles) == 0 {
-		return nil, fmt.Errorf("directory %s: %w", bundleDir, ErrNotComponentDefinitionsFound)
+		return nil, fmt.Errorf("directory %s: %w", bundleDir, ErrNoComponentDefinitionsFound)
 	}
 	return compDefBundles, nil
 }

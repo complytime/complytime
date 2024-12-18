@@ -38,6 +38,6 @@ func TestFindComponentDefinitions(t *testing.T) {
 	require.Len(t, componentDefinitions, 1)
 
 	_, err = FindComponentDefinitions("testdata/")
-	require.ErrorIs(t, err, ErrNotComponentDefinitionsFound)
+	require.ErrorIs(t, err, ErrNoComponentDefinitionsFound)
 
 }

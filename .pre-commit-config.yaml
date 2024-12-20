@@ -17,3 +17,10 @@ repos:
       #- id: no-go-testing
       #- id: golangci-lint
       - id: go-unit-tests
+
+-   repo: local
+    hooks:
+      - id: license
+        name: license
+        entry: ./scripts/check-license.sh
+        language: script

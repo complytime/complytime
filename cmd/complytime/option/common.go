@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-// Common options for the ComplyTome CLI.
+// Common options for the ComplyTime CLI.
 type Common struct {
 	Debug bool
 	Output
@@ -22,7 +22,7 @@ type Output struct {
 	ErrOut io.Writer
 }
 
-// BindFlags populate Common options from a user-specified flags.
+// BindFlags populate Common options from user-specified flags.
 func (o *Common) BindFlags(fs *pflag.FlagSet) {
 	fs.BoolVarP(&o.Debug, "debug", "d", false, "output debug logs")
 }

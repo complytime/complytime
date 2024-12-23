@@ -10,10 +10,17 @@ import (
 
 const assessmentPlan = "assessment-plan.json"
 
-func TestSetOptsFromArgs(t *testing.T) {
+func TestSetOptsFromArgsValid(t *testing.T) {
 	opts := &generateOptions{}
 	args := []string{assessmentPlan}
 	setOptsFromArgs(args, opts)
 
 	require.Equal(t, opts.assessmentPlanPath, assessmentPlan)
+}
+
+func TestSetOptsFromArgsEmtpy(t *testing.T) {
+	opts := &generateOptions{}
+	args := []string{}
+	setOptsFromArgs(args, opts)
+	require.Equal(t, opts, &generateOptions{})
 }

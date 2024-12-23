@@ -31,8 +31,8 @@ func generateCmd(common *option.Common) *cobra.Command {
 	generateOpts := &generateOptions{Common: common}
 	return &cobra.Command{
 		Use:     "generate",
-		Short:   "Generate PVP policy from component definition",
-		Example: "complytime genereate assessment-plan.json",
+		Short:   "Generate PVP policy from an assessment plan",
+		Example: "complytime generate assessment-plan.json",
 		Args:    cobra.RangeArgs(0, 1),
 		PreRun: func(cmd *cobra.Command, args []string) {
 			setOptsFromArgs(args, generateOpts)

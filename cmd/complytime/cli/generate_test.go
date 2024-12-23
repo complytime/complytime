@@ -10,7 +10,7 @@ import (
 
 const assessmentPlan = "assessment-plan.json"
 
-func TestSetOptsFromArgsValid(t *testing.T) {
+func TestSetOptsFromArgsWhenValid(t *testing.T) {
 	opts := &generateOptions{}
 	args := []string{assessmentPlan}
 	setOptsFromArgs(args, opts)
@@ -18,7 +18,7 @@ func TestSetOptsFromArgsValid(t *testing.T) {
 	require.Equal(t, opts.assessmentPlanPath, assessmentPlan)
 }
 
-func TestSetOptsFromArgsEmtpy(t *testing.T) {
+func TestSetOptsFromArgsWhenEmtpy(t *testing.T) {
 	opts := &generateOptions{}
 	args := []string{}
 	setOptsFromArgs(args, opts)

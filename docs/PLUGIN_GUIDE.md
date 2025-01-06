@@ -1,14 +1,14 @@
 # Plugin Authoring
 
 
-ComplyTime can be extended to support desired policy engines (PVPs) by the use of plugins.  The plugin acts as the integration between ComplyTime and the PVPs native interface.  Each plugin is responsible for converting the policy content described in OSCAL into the input format expected by the PVP.  In addition, the plugin converts the raw results provided by the PVP into the schema used by ComplyTime to generate OSCAL output.  Plugins communicate with ComplyTime via gRPC and can be authored using any preferred language.  The plugin acts as the gRPC server while the ComplyTime CLI acts as the client.  When a `complytime` command is run, it invokes the appropriate method served by the plugin.  For developers choosing Golang, the [compliance-to-policy-go](https://github.com/oscal-compass/compliance-to-policy-go/) SDK can be used for plugin authoring
+ComplyTime can be extended to support desired policy engines (PVPs) by the use of plugins.  ComplyTime is built on [compliance-to-policy-go](https://github.com/oscal-compass/compliance-to-policy-go/ which provides a flexible plugin framework for levering OSCAL with various PVPs.  The plugin acts as the integration between ComplyTime and the PVPs native interface.  Each plugin is responsible for converting the policy content described in OSCAL into the input format expected by the PVP.  In addition, the plugin converts the raw results provided by the PVP into the schema used by ComplyTime to generate OSCAL output.  Plugins communicate with ComplyTime via gRPC and can be authored using any preferred language.  The plugin acts as the gRPC server while the ComplyTime CLI acts as the client.  When a `complytime` command is run, it invokes the appropriate method served by the plugin.  For developers choosing Golang, the [compliance-to-policy-go](https://github.com/oscal-compass/compliance-to-policy-go/) SDK can be used for plugin authoring.
 
 
 ## Plugin Discovery
 
 ComplyTime performs automated plugin discovery using the compliance-to-policy-go [plugin manager](https://github.com/complytime/compliance-to-policy-go/blob/CPLYTM-272/plugin/discovery.go).  Plugins are defined using a manifest files placed in the `c2p-plugins` directory.  The plugin manifest is a JSON file that provides metadata about the plugin.
 
-**Note:** the plugin manifest file must have the following sytax for automatic discovery: `c2p-<plugin name>-manifest.json`
+**Note:** the plugin manifest file must have the following syntax for automatic discovery: `c2p-<plugin name>-manifest.json`
 
 ### Example Plugin Manifest
 
@@ -25,7 +25,7 @@ ComplyTime performs automated plugin discovery using the compliance-to-policy-go
 ```
 
 
-### Plugin Mapping
+### Plugin Selection
 
 ComplyTime generates a mapping of plugins to validation components at runtime.  This mapping uses the `title` of the validation component to find a matching plugin with that ID (defined in manifest).
 

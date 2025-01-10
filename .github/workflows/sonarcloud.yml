@@ -9,6 +9,8 @@ on:
     paths:
       - '**.go'
 
+permissions: read-all
+
 jobs:
   sonarcloud:
     if: ${{ github.event.pull_request.base.repo.url == github.event.pull_request.head.repo.url }}

@@ -160,6 +160,31 @@ func populateProfileVariables(dsProfile *xmlquery.Node, parsedProfile *xccdf.Pro
 	return parsedProfile, nil
 }
 
+func populateProfileRules(dsProfile *xmlquery.Node, parsedProfile *xccdf.ProfileElement) (*xccdf.ProfileElement, error) {
+	if parsedProfile.Selections == nil {
+		parsedProfile.Selections = []xccdf.SelectElement{}
+	}
+	profileRules, err := getDsElements(dsProfile, "xccdf-1.2:select")
+	if err != nil {
+		return parsedProfile, fmt.Errorf("error finding 'select' elements in profile: %s", err)
+	}
+	for _, rule := range profileRules {
+		ruleIdRef, err := getDsElementAttrValue(rule, "idref")
+		if err != nil {
+			return parsedProfile, fmt.Errorf("error getting value of 'idref' attribute: %s", err)
+		}
+		ruleSelector, err := getDsElementAttrValue(rule, "selector")
+		if err != nil {
+			return parsedProfile, fmt.Errorf("error getting value of 'selector' attribute: %s", err)
+		}
+
+		parsedProfile.Selections = append(parsedProfile.Selections, xccdf.SelectElement{
+			IDRef:    ruleIdRef,
+			Selected: ruleSelector,
+		})
+	}
+	return parsedProfile, nil
+}
 func initProfile(dsProfile *xmlquery.Node, dsProfileId string) (*xccdf.ProfileElement, error) {
 	parsedProfile := new(xccdf.ProfileElement)
 	parsedProfile.ID = dsProfileId
@@ -170,6 +195,12 @@ func initProfile(dsProfile *xmlquery.Node, dsProfileId string) (*xccdf.ProfileEl
 	}
 
 	// Here we can add the logic to populate profile rules in a separate PR
+	// TODO: Implement the profile rules logic - to extract the Selected
+
+	parsedProfile, err = populateProfileRules(dsProfile, parsedProfile)
+	if err != nil {
+		return parsedProfile, fmt.Errorf("error populating profile rules: %s", err)
+	}
 
 	parsedProfile, err = populateProfileVariables(dsProfile, parsedProfile)
 	if err != nil {

@@ -5,14 +5,22 @@ package cli
 import (
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 
+	"github.com/complytime/complytime/internal/complytime"
+	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-2"
 	"github.com/oscal-compass/compliance-to-policy-go/v2/framework"
 	"github.com/oscal-compass/compliance-to-policy-go/v2/policy"
+	"github.com/oscal-compass/oscal-sdk-go/extensions"
 	"github.com/spf13/cobra"
 
 	"github.com/complytime/complytime/cmd/complytime/option"
-	"github.com/complytime/complytime/internal/complytime"
+	"github.com/oscal-compass/oscal-sdk-go/generators"
+	"github.com/oscal-compass/oscal-sdk-go/settings"
 )
+
+const assessmentResultsLocation = "assessment-results.json"
 
 // scanOptions defined options for the scan subcommand.
 type scanOptions struct {
@@ -46,6 +54,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(planSettings)
 
 	// Create the application directory if it does not exist
 	appDir, err := complytime.NewApplicationDirectory(true)
@@ -65,10 +74,52 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
+
 	// Ensure all the plugins launch above are cleaned up
 	defer manager.Clean()
 
 	allResults, err := manager.AggregateResults(cmd.Context(), plugins, planSettings)
+	if err != nil {
+		return err
+	}
+
+	assessmentPlan, err := loadAssessmentPlan(opts.complyTimeOpts)
+	if err != nil {
+		return err
+	}
+
+	frameworkProp, _ := extensions.GetTrestleProp(extensions.FrameworkProp, *assessmentPlan.Metadata.Props)
+
+	r, err := framework.NewReporter(cfg)
+	if err != nil {
+		return err
+	}
+
+	var allImplementations []oscalTypes.ControlImplementationSet
+	for _, compDef := range cfg.ComponentDefinitions {
+		for _, component := range *compDef.Components {
+			if component.ControlImplementations == nil {
+				continue
+			}
+			allImplementations = append(allImplementations, *component.ControlImplementations...)
+
+		}
+	}
+
+	implementationSettings, err := settings.Framework(frameworkProp.Value, allImplementations)
+	if err != nil {
+		return err
+	}
+
+	assessmentResults, err := r.GenerateAssessmentResults(cmd.Context(), "", implementationSettings, allResults) // TODO: use planHref for assessment plan
+	if err != nil {
+		return err
+	}
+
+	filePath := filepath.Join(opts.complyTimeOpts.UserWorkspace, assessmentResultsLocation)
+	cleanedPath := filepath.Clean(filePath)
+
+	err = complytime.WriteAssessmentResults(&assessmentResults, cleanedPath)
 	if err != nil {
 		return err
 	}
@@ -93,4 +144,21 @@ func displayResults(writer io.Writer, allResults []policy.PVPResult) error {
 		_, _ = fmt.Fprintf(writer, "\n")
 	}
 	return nil
+}
+
+// Load assessment plan from assessment-plan.json
+func loadAssessmentPlan(opts *option.ComplyTime) (*oscalTypes.AssessmentPlan, error) {
+
+	filePath := filepath.Join(opts.UserWorkspace, assessmentPlanLocation)
+	cleanedPath := filepath.Clean(filePath)
+
+	file, err := os.Open(cleanedPath)
+	if err != nil {
+		return nil, err
+	}
+	assessmentPlan, err := generators.NewAssessmentPlan(file)
+	if err != nil {
+		return nil, err
+	}
+	return assessmentPlan, nil
 }

@@ -3,20 +3,17 @@
 package cli
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
-
-	"github.com/complytime/complytime/cmd/complytime/option"
 )
 
 func TestLoadAssessmentPlan(t *testing.T) {
 
-	testOpts := &option.ComplyTime{
-		UserWorkspace: "./testdata",
-	}
+	testFile := filepath.Join("./testdata", "assessment-plan.json")
 
-	assessmentPlan, err := loadAssessmentPlan(testOpts)
+	assessmentPlan, err := loadAssessmentPlan(testFile)
 	require.NoError(t, err)
 	require.Equal(t, assessmentPlan.Metadata.Title, "REPLACE_ME")
 }

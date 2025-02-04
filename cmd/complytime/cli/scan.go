@@ -54,7 +54,6 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(planSettings)
 
 	// Create the application directory if it does not exist
 	appDir, err := complytime.NewApplicationDirectory(true)
@@ -83,7 +82,9 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		return err
 	}
 
-	assessmentPlan, err := loadAssessmentPlan(opts.complyTimeOpts)
+	apPath := filepath.Join(opts.complyTimeOpts.UserWorkspace, assessmentPlanLocation)
+	apCleanedPath := filepath.Clean(apPath)
+	assessmentPlan, err := loadAssessmentPlan(apCleanedPath)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,8 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		return err
 	}
 
-	assessmentResults, err := r.GenerateAssessmentResults(cmd.Context(), "", implementationSettings, allResults) // TODO: use planHref for assessment plan
+	planHref := fmt.Sprintf("file://%s", apCleanedPath)
+	assessmentResults, err := r.GenerateAssessmentResults(cmd.Context(), planHref, implementationSettings, allResults)
 	if err != nil {
 		return err
 	}
@@ -147,12 +149,9 @@ func displayResults(writer io.Writer, allResults []policy.PVPResult) error {
 }
 
 // Load assessment plan from assessment-plan.json
-func loadAssessmentPlan(opts *option.ComplyTime) (*oscalTypes.AssessmentPlan, error) {
+func loadAssessmentPlan(filePath string) (*oscalTypes.AssessmentPlan, error) {
 
-	filePath := filepath.Join(opts.UserWorkspace, assessmentPlanLocation)
-	cleanedPath := filepath.Clean(filePath)
-
-	file, err := os.Open(cleanedPath)
+	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
 	}

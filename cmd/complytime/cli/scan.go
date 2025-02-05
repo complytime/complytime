@@ -4,14 +4,12 @@ package cli
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 
 	"github.com/complytime/complytime/internal/complytime"
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-2"
 	"github.com/oscal-compass/compliance-to-policy-go/v2/framework"
-	"github.com/oscal-compass/compliance-to-policy-go/v2/policy"
 	"github.com/oscal-compass/oscal-sdk-go/extensions"
 	"github.com/spf13/cobra"
 
@@ -89,7 +87,10 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		return err
 	}
 
-	frameworkProp, _ := extensions.GetTrestleProp(extensions.FrameworkProp, *assessmentPlan.Metadata.Props)
+	frameworkProp, valid := extensions.GetTrestleProp(extensions.FrameworkProp, *assessmentPlan.Metadata.Props)
+	if !valid {
+		return fmt.Errorf("error reading framework property from assessment plan")
+	}
 
 	r, err := framework.NewReporter(cfg)
 	if err != nil {
@@ -126,25 +127,6 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		return err
 	}
 
-	// This is a temporary solution for results processing.
-	return displayResults(opts.Out, allResults)
-}
-
-// displayResults write the results from the scan with the given io.Writer.
-func displayResults(writer io.Writer, allResults []policy.PVPResult) error {
-	_, _ = fmt.Fprintf(writer, "Processing %d result(s)...\n", len(allResults))
-	for _, results := range allResults {
-		for _, observation := range results.ObservationsByCheck {
-			_, _ = fmt.Fprintf(writer, "Observation: %s\n", observation.Title)
-			for _, sub := range observation.Subjects {
-				_, _ = fmt.Fprintf(writer, "Subject: %s\n", sub.Title)
-				_, _ = fmt.Fprintf(writer, "Resource: %s\n", sub.ResourceID)
-				_, _ = fmt.Fprintf(writer, "Result: %s\n", sub.Result.String())
-				_, _ = fmt.Fprintf(writer, "Reason: %s\n\n", sub.Reason)
-			}
-		}
-		_, _ = fmt.Fprintf(writer, "\n")
-	}
 	return nil
 }
 
@@ -155,6 +137,8 @@ func loadAssessmentPlan(filePath string) (*oscalTypes.AssessmentPlan, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer file.Close()
+
 	assessmentPlan, err := generators.NewAssessmentPlan(file)
 	if err != nil {
 		return nil, err

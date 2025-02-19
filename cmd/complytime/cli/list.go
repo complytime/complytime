@@ -40,14 +40,20 @@ func runList(opts *option.Common, logger hclog.Logger) error {
 	}
 	logger.Debug(fmt.Sprintf("using application directory: %s", appDir.AppDir()))
 
+	// Implement the NewLogger() function to access the charmlog.Debug
+	//logger.Debug("The Application directory is %s", appDir)
 	frameworks, err := complytime.LoadFrameworks(appDir)
 	if err != nil {
 		return err
 	}
 
 	model := terminal.ShowDefinitionTable(frameworks)
+	// Must implement the charmlog.Debug with NewLogger().
+	// return logger.Debug("The definition table of frameworks has been created.")
 	if _, err := tea.NewProgram(model, tea.WithOutput(opts.Out)).Run(); err != nil {
 		return fmt.Errorf("failed to display component list: %w", err)
+		// Must implement the charmlog handler and the NewLogger() methods
+		// return logger.Error("Failed to display component list &w", "error=", err)
 	}
 	return nil
 }

@@ -5,6 +5,7 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"github.com/hashicorp/go-hclog"
 	"os"
 	"path/filepath"
 
@@ -31,8 +32,10 @@ func setOptsPlanFromArgs(args []string, opts *planOptions) {
 	}
 }
 
+// TODO: Add the logger to the complytime plan command and include in root
+// TODO: Compare with the CPLYTM-245 branch
 // planCmd creates a new cobra.Command for the "plan" subcommand
-func planCmd(common *option.Common) *cobra.Command {
+func planCmd(common *option.Common, logger hclog.Logger) *cobra.Command {
 	planOpts := &planOptions{
 		Common:         common,
 		complyTimeOpts: &option.ComplyTime{},
@@ -43,38 +46,47 @@ func planCmd(common *option.Common) *cobra.Command {
 		Example: "complytime plan myframework",
 		Args:    cobra.ExactArgs(1),
 		PreRun: func(cmd *cobra.Command, args []string) {
+			enableDebug(logger, common)
 			setOptsPlanFromArgs(args, planOpts)
 		},
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			return runPlan(cmd, planOpts)
+			if err := runPlan(cmd, planOpts, logger); err != nil {
+				logger.Error(err.Error())
+			}
+			return nil
 		},
 	}
 	planOpts.complyTimeOpts.BindFlags(cmd.Flags())
 	return cmd
 }
 
-func runPlan(cmd *cobra.Command, opts *planOptions) error {
+func runPlan(cmd *cobra.Command, opts *planOptions, logger hclog.Logger) error {
 	// Create the application directory if it does not exist
 	appDir, err := complytime.NewApplicationDirectory(true)
 	if err != nil {
 		return err
 	}
+	logger.Debug(fmt.Sprintf("Using application directory: %s", appDir.AppDir()))
 	componentDefs, err := complytime.FindComponentDefinitions(appDir.BundleDir())
 	if err != nil {
 		return err
 	}
+	logger.Debug(fmt.Sprintf("Using bundle directory: %s for component definitions.", appDir.BundleDir()))
 	assessmentPlan, err := transformers.ComponentDefinitionsToAssessmentPlan(cmd.Context(), componentDefs, opts.frameworkID)
 	if err != nil {
 		return err
 	}
-
 	filePath := filepath.Join(opts.complyTimeOpts.UserWorkspace, assessmentPlanLocation)
 	cleanedPath := filepath.Clean(filePath)
-
+	logger.Debug(fmt.Sprintf("Cleaning up %s", cleanedPath))
 	if err := complytime.WritePlan(assessmentPlan, opts.frameworkID, cleanedPath); err != nil {
 		return fmt.Errorf("error writing assessment plan to %s: %w", cleanedPath, err)
+		// TODO: Info level to re-establish
 	}
 	fmt.Printf("Assessment plan written to %s\n", cleanedPath)
+	// Charm logger use-case
+	logger.Info(fmt.Sprintf("Assessment plan written to %s\n", cleanedPath))
+	// logger.Print(fmt.Sprintf("Assessment plan written to %s\n", cleanedPath))
 	return nil
 }
 
@@ -94,6 +106,8 @@ func getPlanSettingsForWorkspace(opts *option.ComplyTime) (settings.Settings, er
 		}
 		if errors.Is(err, complytime.ErrNoActivities) {
 			return planSettings, fmt.Errorf("assessment plan %s does not have associated activities: %w", cleanedPath, err)
+			// logger.Error(fmt.Sprintf("assessment plan %s does not have associated activities: %w", cleanedPath, err))
+			// return planSettings, logger.Error(fmt.Sprintf("assessment plan %s does not have associated activities: %w", cleanedPath, err))
 		}
 		return planSettings, err
 	}

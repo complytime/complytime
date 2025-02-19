@@ -55,6 +55,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 
 	// Create the application directory if it does not exist
 	appDir, err := complytime.NewApplicationDirectory(true)
+	//logger.Debug(fmt.Sprintf("The application directory %s was created. ", appDir))
 	if err != nil {
 		return err
 	}
@@ -67,6 +68,10 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return fmt.Errorf("error initializing plugin manager: %w", err)
 	}
+	//if err != nil {
+	//	return logger.Error(fmt.Sprintf("error initializing plugin manager: %w", err))
+	//}
+
 	plugins, err := manager.LaunchPolicyPlugins()
 	if err != nil {
 		return err
@@ -91,6 +96,9 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if !valid {
 		return fmt.Errorf("error reading framework property from assessment plan")
 	}
+	//if !valid {
+	//	return logger.Error(fmt.Sprintf("error reading framework property from assessment plan"))
+	//}
 
 	r, err := framework.NewReporter(cfg)
 	if err != nil {
@@ -144,4 +152,5 @@ func loadAssessmentPlan(filePath string) (*oscalTypes.AssessmentPlan, error) {
 		return nil, err
 	}
 	return assessmentPlan, nil
+	//logger.Debug(fmt.Sprintf("The assessment plan was loaded from the %s file", filePath))
 }

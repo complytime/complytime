@@ -53,10 +53,15 @@ func runGenerate(cmd *cobra.Command, opts *generateOptions) error {
 	if err != nil {
 		return err
 	}
+	// logger.Debug(fmt.Sprintf("The configuration from the C2PConfig was loaded.", cfg)
 	manager, err := framework.NewPluginManager(cfg)
 	if err != nil {
 		return fmt.Errorf("error initializing plugin manager: %w", err)
 	}
+	// Need to use the NewLogger() instance and print the error message at the specified chamlog level
+	//if err != nil {
+	//	return logger.Error("error initializing plugin manager: %w", "error is", err)
+	//}
 	plugins, err := manager.LaunchPolicyPlugins()
 	if err != nil {
 		return err
@@ -70,5 +75,8 @@ func runGenerate(cmd *cobra.Command, opts *generateOptions) error {
 		return err
 	}
 	_, _ = fmt.Fprintf(opts.Out, "Policy generation completed successfully.")
+	// Must implement the charmlogger here. NewLogger() function
+	// _, _ = logger.Print(fmt.Sprintf("Policy generation completed successfully.", "policy=", opts.Out))
+
 	return nil
 }

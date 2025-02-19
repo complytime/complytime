@@ -42,7 +42,7 @@ func New() *cobra.Command {
 		versionCmd(&opts),
 		scanCmd(&opts),
 		generateCmd(&opts),
-		planCmd(&opts),
+		planCmd(&opts, logger),
 		listCmd(&opts, logger),
 	)
 

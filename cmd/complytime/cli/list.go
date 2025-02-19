@@ -21,7 +21,13 @@ func listCmd(common *option.Common) *cobra.Command {
 		SilenceUsage: true,
 		Example:      "complytime list",
 		Args:         cobra.NoArgs,
-		RunE:         func(_ *cobra.Command, _ []string) error { return runList(common) },
+		PreRun:       func(_ *cobra.Command, _ []string) { enableDebug(common) },
+		RunE: func(_ *cobra.Command, _ []string) error {
+			if err := runList(common); err != nil {
+				logger.Error(err.Error())
+			}
+			return nil
+		},
 	}
 	return cmd
 }
@@ -31,6 +37,7 @@ func runList(opts *option.Common) error {
 	if err != nil {
 		return err
 	}
+	logger.Debug(fmt.Sprintf("using application directory: %s", appDir.AppDir()))
 
 	frameworks, err := complytime.LoadFrameworks(appDir)
 	if err != nil {

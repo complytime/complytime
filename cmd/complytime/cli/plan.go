@@ -53,6 +53,7 @@ func planCmd(common *option.Common, logger hclog.Logger) *cobra.Command {
 			if err := runPlan(cmd, planOpts, logger); err != nil {
 				logger.Error(err.Error())
 			}
+			logger.Info("The plan command is running.", "command", cmd.CommandPath())
 			return nil
 		},
 	}
@@ -86,7 +87,6 @@ func runPlan(cmd *cobra.Command, opts *planOptions, logger hclog.Logger) error {
 	fmt.Printf("Assessment plan written to %s\n", cleanedPath)
 	// Charm logger use-case
 	logger.Info(fmt.Sprintf("Assessment plan written to %s\n", cleanedPath))
-	// logger.Print(fmt.Sprintf("Assessment plan written to %s\n", cleanedPath))
 	return nil
 }
 

@@ -41,13 +41,11 @@ func scanCmd(common *option.Common, logger hclog.Logger) *cobra.Command {
 		Args:         cobra.NoArgs,
 		PreRun:       func(cmd *cobra.Command, _ []string) { enableDebug(logger, common) },
 		RunE: func(cmd *cobra.Command, _ []string) error {
-
 			if err := runScan(cmd, scanOpts, logger); err != nil {
 				logger.Error(err.Error())
 			}
-			logger.Info("The scan command is running...")
+			logger.Info("The scan command is running...", "command", cmd.CommandPath())
 			return nil
-			// return runScan(cmd, scanOpts, logger)
 		},
 	}
 	scanOpts.complyTimeOpts.BindFlags(cmd.Flags())
@@ -63,7 +61,6 @@ func runScan(cmd *cobra.Command, opts *scanOptions, logger hclog.Logger) error {
 
 	// Create the application directory if it does not exist
 	appDir, err := complytime.NewApplicationDirectory(true)
-	//logger.Debug(fmt.Sprintf("The application directory %s was created. ", appDir))
 	if err != nil {
 		return err
 	}
@@ -83,7 +80,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions, logger hclog.Logger) error {
 	if err != nil {
 		return err
 	}
-	logger.Info("Launching Policy Plugins")
+	logger.Info("Launching Policy Plugins.")
 	// Ensure all the plugins launch above are cleaned up
 	defer manager.Clean()
 
@@ -103,10 +100,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions, logger hclog.Logger) error {
 	if !valid {
 		return fmt.Errorf("error reading framework property from assessment plan")
 	}
-	//if !valid {
-	//	return logger.Error(fmt.Sprintf("error reading framework property from assessment plan"))
-	//}
-	logger.Info("The framework property has been successfully read.")
+	logger.Info("The framework property was successfully read from the assessment plan.")
 
 	r, err := framework.NewReporter(cfg)
 	if err != nil {
@@ -143,7 +137,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions, logger hclog.Logger) error {
 		return err
 	}
 
-	logger.Info("Assessment Results written to file.")
+	logger.Info("Assessment Results were successfully written to the file.")
 	return nil
 }
 

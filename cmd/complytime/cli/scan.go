@@ -7,6 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/hashicorp/go-hclog"
+
 	"github.com/complytime/complytime/internal/complytime"
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-2"
 	"github.com/oscal-compass/compliance-to-policy-go/v2/framework"
@@ -27,7 +29,7 @@ type scanOptions struct {
 }
 
 // scanCmd creates a new cobra.Command for the version subcommand.
-func scanCmd(common *option.Common) *cobra.Command {
+func scanCmd(common *option.Common, logger hclog.Logger) *cobra.Command {
 	scanOpts := &scanOptions{
 		Common:         common,
 		complyTimeOpts: &option.ComplyTime{},
@@ -38,15 +40,21 @@ func scanCmd(common *option.Common) *cobra.Command {
 		Example:      "complytime scan",
 		SilenceUsage: true,
 		Args:         cobra.NoArgs,
+		PreRun: func(cmd *cobra.Command, _ []string) {
+			enableDebug(logger, common)
+		},
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			return runScan(cmd, scanOpts)
+			if err := runScan(cmd, scanOpts, logger); err != nil {
+				logger.Error(err.Error())
+			}
+			return nil
 		},
 	}
 	scanOpts.complyTimeOpts.BindFlags(cmd.Flags())
 	return cmd
 }
 
-func runScan(cmd *cobra.Command, opts *scanOptions) error {
+func runScan(cmd *cobra.Command, opts *scanOptions, logger hclog.Logger) error {
 
 	planSettings, err := getPlanSettingsForWorkspace(opts.complyTimeOpts)
 	if err != nil {
@@ -58,6 +66,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
+	logger.Debug(fmt.Sprintf("Using application directory: %s", appDir.AppDir()))
 
 	cfg, err := complytime.Config(appDir)
 	if err != nil {

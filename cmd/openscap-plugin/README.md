@@ -66,38 +66,9 @@ To compile complytime and openscap-plugin:
 make build
 ```
 
-## Running
-Install the plugin
-```bash
-mkdir -p ~/.config/complytime/plugins
-cp -rp bin/openscap-plugin ~/.config/complytime/plugins
-cp -rp cmd/openscap-plugin/openscap-plugin.yml ~/.config/complytime/plugins
-```
+### Running
 
-Create the manifest
-```bash
-checksum=$(sha256sum ~/.config/complytime/plugins/openscap-plugin| cut -d ' ' -f 1 )
-cat > ~/.config/complytime/plugins/c2p-openscap-manifest.json << EOF
-{
-  "metadata": {
-    "id": "openscap",
-    "description": "My openscap plugin",
-    "version": "0.0.1",
-    "types": ["pvp"]
-  },
-  "executablePath": "openscap-plugin",
-  "sha256": "$checksum"
-}
-EOF
-```
-
-### Scan
-Run ComplyTime scan command to use plugin
-```bash
-bin/complytime scan
-```
-
-After the scan, check the files in "user_workspace" directory.
+To use the plugin with `complytime`, see the quick start [guide](../../docs/QUICK_START.md).
 
 ### Testing
 Tests are organized within each package. Whenever possible a unit test is created for every function.

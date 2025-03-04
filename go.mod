@@ -106,6 +106,6 @@ require (
 )
 
 replace (
-	github.com/oscal-compass/compliance-to-policy-go/v2 => github.com/complytime/compliance-to-policy-go/v2 v2.0.0-20250303075821-2c4e7c5779bd
+	github.com/oscal-compass/compliance-to-policy-go/v2 => github.com/complytime/compliance-to-policy-go/v2 v2.0.0-20250304072153-1e63f0479c24
 	github.com/oscal-compass/oscal-sdk-go => github.com/complytime/oscal-sdk-go v0.0.0-20250125144051-7723a7b6b06b
 )

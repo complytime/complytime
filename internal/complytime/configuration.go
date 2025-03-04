@@ -24,7 +24,6 @@ const (
 	PluginDir      = "plugins"
 	BundlesDir     = "bundles"
 	ControlsDir    = "controls"
-	CatalogsDir    = "catalogs"
 )
 
 // ErrNoComponentDefinitionsFound returns an error indicated the supplied directory
@@ -43,8 +42,6 @@ type ApplicationDirectory struct {
 	bundleDir string
 	// controlDir contains all OSCAL control layer models.
 	controlDir string
-	// catalogDir
-	catalogDir string
 }
 
 // NewApplicationDirectory returns a new ApplicationDirectory.
@@ -67,7 +64,6 @@ func newApplicationDirectory(rootDir string, create bool) (ApplicationDirectory,
 	applicationDir.pluginDir = filepath.Join(applicationDir.appDir, PluginDir)
 	applicationDir.bundleDir = filepath.Join(applicationDir.appDir, BundlesDir)
 	applicationDir.controlDir = filepath.Join(applicationDir.appDir, ControlsDir)
-	applicationDir.catalogDir = filepath.Join(applicationDir.appDir, CatalogsDir)
 	if create {
 		return applicationDir, applicationDir.create()
 	}
@@ -110,7 +106,6 @@ func (a ApplicationDirectory) Dirs() []string {
 		a.pluginDir,
 		a.bundleDir,
 		a.controlDir,
-		a.catalogDir,
 	}
 }
 

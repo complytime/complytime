@@ -71,6 +71,7 @@ func TestSanitizePath(t *testing.T) {
 
 		// Weird but valid cases
 		{"~weird", "~weird", false}, // not common but possible
+		{"", ".", false},            // empty path is updated to the current directory
 	}
 
 	for _, tt := range tests {
@@ -86,47 +87,59 @@ func TestSanitizePath(t *testing.T) {
 	}
 }
 
-// TestSanitizeAndValidatePath tests the SanitizeAndValidatePath function with various
-// valid and invalid paths.
-func TestSanitizeAndValidatePath(t *testing.T) {
-	tempDir := t.TempDir()
-	tempFile := filepath.Join(tempDir, "testfile")
-
-	file, err := os.Create(tempFile)
-	if err != nil {
-		t.Fatalf("Failed to create temporary file: %v", err)
+func setupTestFiles() error {
+	if err := os.MkdirAll("testdata", os.ModePerm); err != nil {
+		return err
 	}
-	file.Close()
-	defer os.RemoveAll(tempFile)
+
+	if err := os.WriteFile("testdata/valid.xml", []byte(`<root></root>`), 0600); err != nil {
+		return err
+	}
+	if err := os.WriteFile("testdata/invalid.xml", []byte(`<root>`), 0600); err != nil {
+		return err
+	}
+	return nil
+}
+
+func teardownTestFiles() {
+	os.RemoveAll("testdata")
+}
+
+func TestIsXMLFile(t *testing.T) {
+	if err := setupTestFiles(); err != nil {
+		t.Fatalf("Failed to setup test files: %v", err)
+	}
+	defer teardownTestFiles()
 
 	tests := []struct {
-		path        string
-		shouldBeDir bool
-		expectError bool
-		expected    string
+		name      string
+		filePath  string
+		want      bool
+		expectErr bool
 	}{
-		// Valid cases
-		{tempDir, true, false, tempDir},    // directory exists
-		{tempFile, false, false, tempFile}, // file exists
-		{"/nonexistent", true, true, ""},   // directory does not exist
-		{"/nonexistent", false, true, ""},  // file does not exist
-
-		// Invalid cases
-		{tempFile, true, true, ""},          // expected directory but found file
-		{tempDir, false, true, ""},          // expected file but found directory
-		{"/foo/bar/../baz", true, true, ""}, // normalized path does not exist
-		{"./foo/bar", true, true, ""},       // relative path does not exist
-		{"./foo/bar", true, true, ""},       // relative path does not exist
+		{
+			name:      "Valid XML file",
+			filePath:  "testdata/valid.xml",
+			want:      true,
+			expectErr: false,
+		},
+		{
+			name:      "Invalid XML file",
+			filePath:  "testdata/invalid.xml",
+			want:      false,
+			expectErr: true,
+		},
 	}
 
 	for _, tt := range tests {
-		t.Run(tt.path, func(t *testing.T) {
-			result, err := SanitizeAndValidatePath(tt.path, tt.shouldBeDir)
-			if (err != nil) != tt.expectError {
-				t.Errorf("Expected error: %v, got: %v", tt.expectError, err)
+		t.Run(tt.name, func(t *testing.T) {
+			isXML, err := IsXMLFile(tt.filePath)
+			if (err != nil) != tt.expectErr {
+				t.Errorf("IsXMLFile(%s) error = %v, expectErr %v", tt.filePath, err, tt.expectErr)
+				return
 			}
-			if result != tt.expected {
-				t.Errorf("Expected result: %s, got: %s", tt.expected, result)
+			if isXML != tt.want {
+				t.Errorf("IsXMLFile() = %v, want %v", isXML, tt.want)
 			}
 		})
 	}

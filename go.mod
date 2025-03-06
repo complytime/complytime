@@ -9,16 +9,15 @@ require (
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.2.4
 	github.com/charmbracelet/lipgloss v1.0.0
+	github.com/charmbracelet/log v0.4.0
 	github.com/defenseunicorns/go-oscal v0.6.2
 	github.com/hashicorp/go-hclog v1.6.3
 	github.com/hashicorp/go-plugin v1.6.2
 	github.com/oscal-compass/compliance-to-policy-go/v2 v2.0.0
-	github.com/oscal-compass/oscal-sdk-go v0.0.0-20250214194258-09243b514d6c
+	github.com/oscal-compass/oscal-sdk-go v0.0.0-20250219174812-48644982faf8
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace
 	github.com/stretchr/testify v1.10.0
-	go.uber.org/zap v1.27.0
-	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -35,6 +34,7 @@ require (
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
+	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
@@ -78,7 +78,7 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	go.uber.org/multierr v1.11.0 // indirect
+	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
 	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/oauth2 v0.25.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
@@ -92,6 +92,7 @@ require (
 	google.golang.org/protobuf v1.36.3 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/api v0.32.1 // indirect
 	k8s.io/apimachinery v0.32.1 // indirect
 	k8s.io/apiserver v0.32.0 // indirect
@@ -105,7 +106,4 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace (
-	github.com/oscal-compass/compliance-to-policy-go/v2 => github.com/complytime/compliance-to-policy-go/v2 v2.0.0-20250304072153-1e63f0479c24
-	github.com/oscal-compass/oscal-sdk-go => github.com/complytime/oscal-sdk-go v0.0.0-20250125144051-7723a7b6b06b
-)
+replace github.com/oscal-compass/compliance-to-policy-go/v2 => github.com/complytime/compliance-to-policy-go/v2 v2.0.0-20250227121630-81169b4b0d96

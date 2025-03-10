@@ -5,12 +5,12 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-2"
 	"github.com/oscal-compass/compliance-to-policy-go/v2/framework"
 	"github.com/oscal-compass/oscal-sdk-go/extensions"
-	"github.com/oscal-compass/oscal-sdk-go/generators"
 	"github.com/oscal-compass/oscal-sdk-go/settings"
 	"github.com/spf13/cobra"
 
@@ -145,6 +145,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 	if err != nil {
 		return err
 	}
+	logger.Info(fmt.Sprintf("The assessment results were successfully written to %v.", cleanedPath))
 	outputFlag, _ := cmd.Flags().GetBool("with-md")
 	if outputFlag {
 		profile, err := complytime.LoadProfile(appDir, profileHref)
@@ -161,7 +162,7 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		}
 		filePath := filepath.Join(opts.complyTimeOpts.UserWorkspace, assessmentResultsLocationMd)
 		cleanedPath := filepath.Clean(filePath)
-		templateValues, err := framework.CreateTemplateValues(*catalog, *assessmentPlan, assessmentResults)
+		templateValues, err := framework.CreateTemplateValues(*catalog, *ap, assessmentResults)
 		if err != nil {
 			return err
 		}
@@ -173,9 +174,9 @@ func runScan(cmd *cobra.Command, opts *scanOptions) error {
 		if err != nil {
 			return err
 		}
+		logger.Info(fmt.Sprintf("The assessment results were successfully written to %v.", cleanedPath))
 	} else {
 		fmt.Println("No assessment result markdown will be generated.")
 	}
-	logger.Info(fmt.Sprintf("The assessment results were successfully written to %v.", assessmentResultsLocation))
 	return nil
 }

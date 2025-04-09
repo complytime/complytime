@@ -23,6 +23,7 @@ type planOptions struct {
 	*option.Common
 	complyTimeOpts *option.ComplyTime
 	frameworkID    string
+	updateOpts     *option.UpdatePlan
 }
 
 func setOptsPlanFromArgs(args []string, opts *planOptions) {
@@ -50,6 +51,7 @@ func planCmd(common *option.Common) *cobra.Command {
 		},
 	}
 	planOpts.complyTimeOpts.BindFlags(cmd.Flags())
+	planOpts.updateOpts.BindFlags(cmd.Flags())
 	return cmd
 }
 

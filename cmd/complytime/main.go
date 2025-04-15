@@ -12,6 +12,7 @@ import (
 	"github.com/complytime/complytime/cmd/complytime/cli"
 )
 
+// Including the COmponentTable()
 func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()

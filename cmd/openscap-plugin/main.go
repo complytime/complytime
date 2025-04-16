@@ -29,7 +29,12 @@ func main() {
 	hclog.Default().Info("Starting OpenSCAP plugin")
 	openSCAPPlugin := server.New()
 	pluginByType := map[string]hplugin.Plugin{
-		plugin.PVPPluginName: &plugin.PVPPlugin{Impl: openSCAPPlugin},
+		plugin.GenerationPluginName:  &plugin.GeneratorPlugin{Impl: openSCAPPlugin},
+		plugin.AggregationPluginName: &plugin.AggregatorPlugin{Impl: openSCAPPlugin},
 	}
-	plugin.Register(pluginByType)
+	config := plugin.ServeConfig{
+		PluginSet: pluginByType,
+		Logger:    logger,
+	}
+	plugin.Register(config)
 }

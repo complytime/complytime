@@ -24,7 +24,8 @@ import (
 )
 
 var (
-	_ policy.Provider = (*PluginServer)(nil)
+	_ policy.Generator  = (*PluginServer)(nil)
+	_ policy.Aggregator = (*PluginServer)(nil)
 	// ovalRegex is a regular expression for capturing the check short name
 	// in an OVAL check definition identifier.
 	ovalRegex = regexp.MustCompile(`^[^:]*?:[^-]*?-(.*?):.*?$`)

@@ -3,7 +3,7 @@ module github.com/complytime/complytime
 go 1.23.4
 
 require (
-	github.com/ComplianceAsCode/compliance-operator v1.5.0
+	github.com/ComplianceAsCode/compliance-operator v1.6.2
 	github.com/adrg/xdg v0.5.3
 	github.com/antchfx/xmlquery v1.4.3
 	github.com/charmbracelet/bubbles v0.20.0
@@ -66,8 +66,8 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/oklog/run v1.0.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
-	github.com/openshift/api v0.0.0-20231117201702-2ea16bbab164 // indirect
-	github.com/openshift/library-go v0.0.0-20231102154438-cfcf2b4fbc87 // indirect
+	github.com/openshift/api v0.0.0-20240830142653-85dc560939ef // indirect
+	github.com/openshift/library-go v0.0.0-20240821135116-ade3966091b1 // indirect
 	github.com/openshift/machine-config-operator v0.0.1-0.20230815171034-c2bb862bc08a // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect

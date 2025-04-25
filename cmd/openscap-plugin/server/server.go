@@ -65,9 +65,10 @@ func (s PluginServer) Generate(policy policy.Policy) error {
 	}
 
 	// Generate remedation files
+	hclog.Default().Info(("Generating remediation files"))
 	pluginDir := filepath.Join(s.Config.Files.Workspace, config.PluginDir)
-	_, errs := oscap.OscapGenerateFix(pluginDir, s.Config.Parameters.Profile, s.Config.Files.Policy, s.Config.Files.Datastream)
-	if errs != nil {
+	err = oscap.OscapGenerateFix(pluginDir, s.Config.Parameters.Profile, s.Config.Files.Policy, s.Config.Files.Datastream)
+	if err != nil {
 		return err
 	}
 	return nil

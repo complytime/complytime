@@ -14,7 +14,7 @@ import (
 func executeCommand(command []string) ([]byte, error) {
 	cmdPath, err := exec.LookPath(command[0])
 	if err != nil {
-		return nil, fmt.Errorf("command not found: %s", command[0])
+		return nil, fmt.Errorf("command not found: %s: %w", command[0], err)
 	}
 
 	hclog.Default().Debug("Executing command", "command", command)
@@ -23,13 +23,12 @@ func executeCommand(command []string) ([]byte, error) {
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		if err.Error() == "exit status 1" {
-			return output, fmt.Errorf("%s: oscap error during evaluation", err)
+			return output, fmt.Errorf("oscap error during evaluation: %w", err)
 		} else if err.Error() == "exit status 2" {
 			hclog.Default().Warn("at least one rule resulted in fail or unknown", "err", err)
 			return output, nil
 		} else {
-			hclog.Default().Warn("Error", "err", err)
-			return output, nil
+			return nil, err
 		}
 	}
 	return output, nil
@@ -61,7 +60,7 @@ func OscapScan(openscapFiles map[string]string, profile string) ([]byte, error) 
 	return executeCommand(command)
 }
 
-func constructGenerateFixCommand(fixType string, output string, profile string, tailoringFile string, datastream string) []string {
+func constructGenerateFixCommand(fixType, output, profile, tailoringFile, datastream string) []string {
 
 	cmd := []string{
 		"oscap",
@@ -77,7 +76,7 @@ func constructGenerateFixCommand(fixType string, output string, profile string, 
 	return cmd
 }
 
-func OscapGenerateFix(pluginDir string, profile string, policyFile string, datastream string) error {
+func OscapGenerateFix(pluginDir, profile, policyFile, datastream string) error {
 	fixTypes := map[string]string{
 		"bash":      "remediation-script.sh",
 		"ansible":   "remediation-playbook.yml",

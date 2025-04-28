@@ -43,7 +43,7 @@ Check the quick start [guide](QUICK_START.md) to see an example.
 
 ### Directory Naming Conventions
 
-In order to support automated aggregation of output files from multiple plugins the following directory names are excected by ComplyTime:
+In order to support automated aggregation of output files from multiple plugins the following directory names are expected by ComplyTime:
 
 **Note:** The `workspace` path will be provided by ComplyTime via the [configuration](https://github.com/complytime/complytime/blob/6cf2e92aff852119bba83e579e2c6d8700e4bcec/internal/complytime/plugins.go#L72) and represents the user's desired working directory for all ComplyTime activities.
 

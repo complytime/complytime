@@ -69,9 +69,12 @@ make test-unit
 %doc %{_mandir}/man5/c2p-openscap-manifest.5*
 
 %changelog
+<<<<<<< HEAD
 * Tue May 6 2025 Qingmin Duanmu <qduanmu@redhat.com>
 - Add complytime and openscap plugin man pages
 
+=======
+>>>>>>> 5631ccf (feat: update ApplicationDirectory for plugin manifest)
 * Wed Apr 30 2025 Qingmin Duanmu <qduanmu@redhat.com>
 - Separate plugin binary from manifest
 

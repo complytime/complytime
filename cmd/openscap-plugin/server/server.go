@@ -97,6 +97,15 @@ func (s PluginServer) GetResults(oscalPolicy policy.Policy) (policy.PVPResult, e
 		return policy.PVPResult{}, err
 	}
 
+	// extract hostname from xml to use in subject, this will
+	// map to in inventory item in the OSCAL assessment results
+	targetEl := xmlnode.SelectElement("//target")
+	if targetEl == nil {
+		return policy.PVPResult{}, errors.New("result has no 'target' attribute")
+	}
+	target := targetEl.InnerText()
+	hclog.Default().Debug(fmt.Sprintf("hostname from results target is %s", target))
+
 	ruleTable := xccdf.NewRuleHashTable(xmlnode)
 	results := xmlnode.SelectElements("//rule-result")
 	for i := range results {
@@ -134,12 +143,12 @@ func (s PluginServer) GetResults(oscalPolicy policy.Policy) (policy.PVPResult, e
 				CheckID:   ovalCheck,
 				Subjects: []policy.Subject{
 					{
-						Title:       "My Comp",
-						Type:        "component",
-						ResourceID:  ruleIDRef,
+						Title:       fmt.Sprintf("Host %s", target),
+						Type:        "inventory-item",
+						ResourceID:  target,
 						EvaluatedOn: time.Now(),
 						Result:      mappedResult,
-						Reason:      "my reason",
+						Reason:      fmt.Sprintf("openscap rule-result is %s", result.SelectElement("result").InnerText()),
 					},
 				},
 				RelevantEvidences: []policy.Link{

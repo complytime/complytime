@@ -39,7 +39,7 @@ jobs:
         with:
           name: coverage
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@f932b663acf3c4b8b27c673927b5ac744638b17b # pin@f932b663acf3c4b8b27c673927b5ac744638b17b
+        uses: SonarSource/sonarqube-scan-action@bfe63be74698caf8fc29c395148003fdea0fdd9f # pin@f932b663acf3c4b8b27c673927b5ac744638b17b
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

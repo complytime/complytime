@@ -60,7 +60,7 @@ func New() *cobra.Command {
 		scanCmd(&opts),
 		generateCmd(&opts),
 		planCmd(&opts),
-		updateCmd(&opts),
+		//updateCmd(&opts),
 		listCmd(&opts),
 	)
 	cmd.PersistentPreRun = func(_ *cobra.Command, _ []string) { enableDebug(&opts) }

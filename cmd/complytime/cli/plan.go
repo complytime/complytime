@@ -24,6 +24,9 @@ const assessmentPlanLocation = "assessment-plan.json"
 type planOptions struct {
 	*option.Common
 	complyTimeOpts *option.ComplyTime
+
+	// dryRun loads the defaults and prints the config to stdout
+	dryRun bool
 }
 
 // planCmd creates a new cobra.Command for the "plan" subcommand
@@ -46,6 +49,7 @@ func planCmd(common *option.Common) *cobra.Command {
 			return runPlan(cmd, planOpts)
 		},
 	}
+	cmd.Flags().BoolVarP(&planOpts.dryRun, "dry-run", "n", false, "load the defaults and print the config to stdout")
 	planOpts.complyTimeOpts.BindFlags(cmd.Flags())
 	return cmd
 }
@@ -62,6 +66,12 @@ func runPlan(cmd *cobra.Command, opts *planOptions) error {
 	componentDefs, err := complytime.FindComponentDefinitions(appDir.BundleDir(), validator)
 	if err != nil {
 		return err
+	}
+
+	if opts.dryRun {
+		// Write the plan configuration to stdout
+		planDryRun(opts.complyTimeOpts.FrameworkID, componentDefs)
+		return nil
 	}
 
 	logger.Debug(fmt.Sprintf("Using bundle directory: %s for component definitions.", appDir.BundleDir()))

@@ -44,12 +44,23 @@ func New() *cobra.Command {
 		},
 	}
 	opts.BindFlags(cmd.PersistentFlags())
+	//
+	//planCmd_ := planCmd(&opts)
+	//planCmd_.AddCommand(updateCmd(&opts))
+	//cmd.AddCommand(
+	//	versionCmd(&opts),
+	//	scanCmd(&opts),
+	//	generateCmd(&opts),
+	//	planCmd_,
+	//	listCmd(&opts),
+	//)
 
 	cmd.AddCommand(
 		versionCmd(&opts),
 		scanCmd(&opts),
 		generateCmd(&opts),
 		planCmd(&opts),
+		updateCmd(&opts),
 		listCmd(&opts),
 	)
 	cmd.PersistentPreRun = func(_ *cobra.Command, _ []string) { enableDebug(&opts) }

@@ -11,6 +11,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/charmbracelet/log v0.4.0
 	github.com/defenseunicorns/go-oscal v0.6.2
+	github.com/goccy/go-yaml v1.17.1
 	github.com/hashicorp/go-hclog v1.6.3
 	github.com/hashicorp/go-plugin v1.6.2
 	github.com/oscal-compass/compliance-to-policy-go/v2 v2.0.0-20250506125517-e51adaf0a7a0

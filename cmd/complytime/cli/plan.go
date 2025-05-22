@@ -22,7 +22,7 @@ import (
 const assessmentPlanLocation = "assessment-plan.json"
 
 // TODO: convert `assessmentPlanFilterLocation` to config.yml
-const assessmentPlanFilterLocation = "assessment-plan-filter.yml"
+const assessmentPlanFilterLocation = "config.yml"
 
 // PlanOptions defines options for the "plan" subcommand
 type planOptions struct {
@@ -110,6 +110,9 @@ func runPlan(cmd *cobra.Command, opts *planOptions) error {
 		if err != nil {
 			return fmt.Errorf("error reading assessment plan filter: %w", err)
 		}
+
+		// HB Update - TODO - correct if wrong
+		err = os.WriteFile(assessmentPlanFilterLocation, configBytes, 0644)
 		assessmentScope := plan.AssessmentScope{}
 		if err := yaml.Unmarshal(configBytes, &assessmentScope); err != nil {
 			return fmt.Errorf("error unmarshaling assessment plan filter: %w", err)

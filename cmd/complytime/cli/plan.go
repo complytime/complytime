@@ -21,7 +21,7 @@ import (
 
 const assessmentPlanLocation = "assessment-plan.json"
 
-// TODO: convert `assessmentPlanFilterLocation` to config.yml
+// TODO: `assessmentPlanFilterLocation` is generic, but can be input based on the user preference
 const assessmentPlanFilterLocation = "config.yml"
 
 // PlanOptions defines options for the "plan" subcommand
@@ -170,12 +170,14 @@ func planDryRun(frameworkId string, cds []oscalTypes.ComponentDefinition) error 
 				}
 				// TODO HB - Source is the FrameworkID on the ControlImplementationSet
 				// TODO HB - Applicable controls would be organized by FrameworkID
-				if ci.Source != "" {
-					baseScope.FrameworkID = ci.Source
-				}
-				for _, ir := range ci.ImplementedRequirements {
-					if ir.ControlId != "" {
-						baseScope.IncludeControls = append(baseScope.IncludeControls, ir.ControlId)
+				//if ci.Source != "" {
+				//	baseScope.FrameworkID = ci.Source
+				//}
+				if ci.Source == baseScope.FrameworkID {
+					for _, ir := range ci.ImplementedRequirements {
+						if ir.ControlId != "" {
+							baseScope.IncludeControls = append(baseScope.IncludeControls, ir.ControlId)
+						}
 					}
 				}
 			}

@@ -21,7 +21,7 @@ import (
 
 const assessmentPlanLocation = "assessment-plan.json"
 
-// TODO: convert `assessmentPlanFilterLocation` to config.yml
+// TODO: `assessmentPlanFilterLocation` is generic, but can be input based on the user preference
 const assessmentPlanFilterLocation = "config.yml"
 
 // PlanOptions defines options for the "plan" subcommand
@@ -102,7 +102,6 @@ func runPlan(cmd *cobra.Command, opts *planOptions) error {
 	if opts.withConfig != "" {
 		// Read assessment plan filter
 		// FIXME: Is `assessment filter plan` the right location?
-		// TODO: HB write to `config.yml` to load from there
 		// Seems more intuitive to write the plan content to a well-known location and load only
 		// if present or allow the user to pass in the path. We could use a mutli-writer to write to the path and
 		// stdout if desired.
@@ -171,14 +170,11 @@ func planDryRun(frameworkId string, cds []oscalTypes.ComponentDefinition) error 
 				if ci.ImplementedRequirements == nil {
 					continue
 				}
-				// TODO HB - Source is the FrameworkID on the ControlImplementationSet
-				// TODO HB - Applicable controls would be organized by FrameworkID
-				if ci.Source != "" {
-					baseScope.FrameworkID = ci.Source
-				}
-				for _, ir := range ci.ImplementedRequirements {
-					if ir.ControlId != "" {
-						baseScope.IncludeControls = append(baseScope.IncludeControls, ir.ControlId)
+				if ci.Source == baseScope.FrameworkID {
+					for _, ir := range ci.ImplementedRequirements {
+						if ir.ControlId != "" {
+							baseScope.IncludeControls = append(baseScope.IncludeControls, ir.ControlId)
+						}
 					}
 				}
 			}

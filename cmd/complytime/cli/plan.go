@@ -21,9 +21,6 @@ import (
 
 const assessmentPlanLocation = "assessment-plan.json"
 
-// TODO: `assessmentPlanFilterLocation` is generic, but can be input based on the user preference
-const assessmentPlanFilterLocation = "config.yml"
-
 // PlanOptions defines options for the "plan" subcommand
 type planOptions struct {
 	*option.Common

@@ -3,13 +3,13 @@ GO_BUILD_BINDIR :=./bin
 GIT_COMMIT := $(or $(SOURCE_GIT_COMMIT),$(shell git rev-parse --short HEAD))
 GIT_TAG :="$(shell git tag | sort -V | tail -1)"
 
-GO_LD_EXTRAFLAGS :=-X github.com/complytime/complytime/internal/version.version="$(GIT_TAG)" \
-				   -X github.com/complytime/complytime/internal/version.gitTreeState=$(shell test -n "`git status --porcelain`" && echo "dirty" || echo "clean") \
-				   -X github.com/complytime/complytime/internal/version.commit="$(GIT_COMMIT)" \
-				   -X github.com/complytime/complytime/internal/version.buildDate="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')"
+GO_LD_EXTRAFLAGS :=-X github.com/complytime/complyctl/internal/version.version="$(GIT_TAG)" \
+				   -X github.com/complytime/complyctl/internal/version.gitTreeState=$(shell test -n "`git status --porcelain`" && echo "dirty" || echo "clean") \
+				   -X github.com/complytime/complyctl/internal/version.commit="$(GIT_COMMIT)" \
+				   -X github.com/complytime/complyctl/internal/version.buildDate="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
-MAN_COMPLYTIME = docs/man/complytime.md
-MAN_COMPLYTIME_OUTPUT = docs/man/complytime.1
+MAN_COMPLYCTL = docs/man/complyctl.md
+MAN_COMPLYCTL_OUTPUT = docs/man/complytctl.1
 MAN_OPENSCAP_CONF = docs/man/c2p-openscap-manifest.md
 MAN_OPENSCAP_CONF_OUTPUT = docs/man/c2p-openscap-manifest.5
 
@@ -17,8 +17,8 @@ all: clean vendor test-unit build
 .PHONY: all
 
 man:
-	mkdir -p $(dir $(MAN_COMPLYTIME_OUTPUT)) $(dir $(MAN_OPENSCAP_CONF_OUTPUT))
-	pandoc -s -t man $(MAN_COMPLYTIME) -o $(MAN_COMPLYTIME_OUTPUT)
+	mkdir -p $(dir $(MAN_COMPLYCTL_OUTPUT)) $(dir $(MAN_OPENSCAP_CONF_OUTPUT))
+	pandoc -s -t man $(MAN_COMPLYCTL) -o $(MAN_COMPLYCTL_OUTPUT)
 	pandoc -s -t man $(MAN_OPENSCAP_CONF) -o $(MAN_OPENSCAP_CONF_OUTPUT)
 
 dev-setup: dev-setup-commit-hooks

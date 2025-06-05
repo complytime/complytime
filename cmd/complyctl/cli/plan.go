@@ -13,8 +13,8 @@ import (
 	"github.com/oscal-compass/oscal-sdk-go/validation"
 	"github.com/spf13/cobra"
 
-	"github.com/complytime/complytime/cmd/complytime/option"
-	"github.com/complytime/complytime/internal/complytime"
+	"github.com/complytime/complyctl/cmd/complyctl/option"
+	"github.com/complytime/complyctl/internal/complytime"
 )
 
 const assessmentPlanLocation = "assessment-plan.json"
@@ -34,7 +34,7 @@ func planCmd(common *option.Common) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "plan [flags] id",
 		Short:   "Generate a new assessment plan for a given compliance framework id.",
-		Example: "complytime plan myframework",
+		Example: "complyctl plan myframework",
 		Args:    cobra.ExactArgs(1),
 		PreRun: func(cmd *cobra.Command, args []string) {
 			if len(args) == 1 {

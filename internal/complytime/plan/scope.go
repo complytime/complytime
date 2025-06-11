@@ -4,6 +4,7 @@ package plan
 
 import (
 	"fmt"
+	"sort"
 
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 	"github.com/hashicorp/go-hclog"
@@ -31,9 +32,7 @@ func NewAssessmentScope(frameworkID string) AssessmentScope {
 // NewAssessmentScopeFromCDs creates and populates an AssessmentScope struct for a given framework id and set of
 // OSCAL Component Definitions.
 func NewAssessmentScopeFromCDs(frameworkId string, cds ...oscalTypes.ComponentDefinition) (AssessmentScope, error) {
-
-	includeControlsSet := make(map[string]struct{})
-
+	includeControls := make(includeControlsSet)
 	scope := NewAssessmentScope(frameworkId)
 	if cds == nil {
 		return AssessmentScope{}, fmt.Errorf("no component definitions found")
@@ -57,7 +56,7 @@ func NewAssessmentScopeFromCDs(frameworkId string, cds ...oscalTypes.ComponentDe
 					}
 					for _, ir := range ci.ImplementedRequirements {
 						if ir.ControlId != "" {
-							includeControlsSet[ir.ControlId] = struct{}{}
+							includeControls.Add(ir.ControlId)
 						}
 					}
 				}
@@ -65,9 +64,10 @@ func NewAssessmentScopeFromCDs(frameworkId string, cds ...oscalTypes.ComponentDe
 		}
 	}
 
-	for controlId := range includeControlsSet {
-		scope.IncludeControls = append(scope.IncludeControls, controlId)
-	}
+	scope.IncludeControls = includeControls.All()
+	sort.Slice(scope.IncludeControls, func(i, j int) bool {
+		return scope.IncludeControls[i] < scope.IncludeControls[j]
+	})
 
 	return scope, nil
 }
@@ -85,13 +85,12 @@ func (a AssessmentScope) ApplyScope(assessmentPlan *oscalTypes.AssessmentPlan, l
 func (a AssessmentScope) applyControlScope(assessmentPlan *oscalTypes.AssessmentPlan, logger hclog.Logger) {
 	// "Any control specified within exclude-controls must first be within a range of explicitly
 	// included controls, via include-controls or include-all."
-	includedControls := map[string]bool{}
+	includedControls := includeControlsSet{}
 	for _, id := range a.IncludeControls {
-		includedControls[id] = true
+		includedControls.Add(id)
 	}
 	logger.Debug("Found included controls", "count", len(includedControls))
 
-	// FIXME: We should remove activities that have been filtered out (i.e. have no in scope controls)
 	if assessmentPlan.LocalDefinitions != nil {
 		if assessmentPlan.LocalDefinitions.Activities != nil {
 			for activityI := range *assessmentPlan.LocalDefinitions.Activities {
@@ -156,7 +155,7 @@ func (a AssessmentScope) applyControlScope(assessmentPlan *oscalTypes.Assessment
 	}
 }
 
-func filterControlSelection(controlSelection *oscalTypes.AssessedControls, includedControls map[string]bool) {
+func filterControlSelection(controlSelection *oscalTypes.AssessedControls, includedControls includeControlsSet) {
 	// The new included controls should be the intersection of
 	// the originally included controls and the newly included controls.
 	// ExcludedControls are preserved.
@@ -165,15 +164,15 @@ func filterControlSelection(controlSelection *oscalTypes.AssessedControls, inclu
 	includedAll := controlSelection.IncludeAll != nil
 	controlSelection.IncludeAll = nil
 
-	originalIncludedControls := map[string]bool{}
+	originalIncludedControls := includeControlsSet{}
 	if controlSelection.IncludeControls != nil {
 		for _, controlId := range *controlSelection.IncludeControls {
-			originalIncludedControls[controlId.ControlId] = true
+			originalIncludedControls.Add(controlId.ControlId)
 		}
 	}
 	var newIncludedControls []oscalTypes.AssessedControlsSelectControlById
 	for controlId := range includedControls {
-		if includedAll || originalIncludedControls[controlId] {
+		if includedAll || originalIncludedControls.Has(controlId) {
 			newIncludedControls = append(newIncludedControls, oscalTypes.AssessedControlsSelectControlById{
 				ControlId: controlId,
 			})
@@ -184,4 +183,23 @@ func filterControlSelection(controlSelection *oscalTypes.AssessedControls, inclu
 	} else {
 		controlSelection.IncludeControls = nil
 	}
+}
+
+type includeControlsSet map[string]struct{}
+
+func (i includeControlsSet) Add(controlID string) {
+	i[controlID] = struct{}{}
+}
+
+func (i includeControlsSet) All() []string {
+	keys := make([]string, 0, len(i))
+	for controlId := range i {
+		keys = append(keys, controlId)
+	}
+	return keys
+}
+
+func (i includeControlsSet) Has(controlID string) bool {
+	_, found := i[controlID]
+	return found
 }

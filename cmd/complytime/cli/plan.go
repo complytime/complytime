@@ -157,8 +157,11 @@ func loadPlan(opts *option.ComplyTime, validator validation.Validator) (*oscalTy
 // planDryRun leverages the AssessmentScope structure to populate tailoring config.
 // The config is written to stdout.
 func planDryRun(frameworkId string, cds []oscalTypes.ComponentDefinition, output string) error {
-
-	data, err := yaml.Marshal(&baseScope)
+	scope, err := plan.NewAssessmentScopeFromCDs(frameworkId, cds...)
+	if err != nil {
+		return fmt.Errorf("error creating assessment scope for %s", frameworkId)
+	}
+	data, err := yaml.Marshal(&scope)
 	if err != nil {
 		return fmt.Errorf("error marshalling yaml content: %v", err)
 	}

@@ -31,6 +31,9 @@ func NewAssessmentScope(frameworkID string) AssessmentScope {
 // NewAssessmentScopeFromCDs creates and populates an AssessmentScope struct for a given framework id and set of
 // OSCAL Component Definitions.
 func NewAssessmentScopeFromCDs(frameworkId string, cds ...oscalTypes.ComponentDefinition) (AssessmentScope, error) {
+
+	includeControlsSet := make(map[string]struct{})
+
 	scope := NewAssessmentScope(frameworkId)
 	if cds == nil {
 		return AssessmentScope{}, fmt.Errorf("no component definitions found")
@@ -48,25 +51,24 @@ func NewAssessmentScopeFromCDs(frameworkId string, cds ...oscalTypes.ComponentDe
 					continue
 				}
 				if ci.Props != nil {
-					for _, frameworkVal := range *ci.Props {
-						if scope.FrameworkID == frameworkVal.Value {
-							continue
-						}
-						for _, ir := range ci.ImplementedRequirements {
-							if ir.ControlId != "" {
-								scope.IncludeControls = append(scope.IncludeControls, ir.ControlId)
-							}
-						}
+					frameworkProp, found := extensions.GetTrestleProp(extensions.FrameworkProp, *ci.Props)
+					if !found || frameworkProp.Value != scope.FrameworkID {
+						continue
 					}
 					for _, ir := range ci.ImplementedRequirements {
 						if ir.ControlId != "" {
-							scope.IncludeControls = append(scope.IncludeControls, ir.ControlId)
+							includeControlsSet[ir.ControlId] = struct{}{}
 						}
 					}
 				}
 			}
 		}
 	}
+
+	for controlId := range includeControlsSet {
+		scope.IncludeControls = append(scope.IncludeControls, controlId)
+	}
+
 	return scope, nil
 }
 

@@ -3,6 +3,8 @@
 package plan
 
 import (
+	"fmt"
+
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 	"github.com/hashicorp/go-hclog"
 	"github.com/oscal-compass/oscal-sdk-go/extensions"
@@ -19,11 +21,53 @@ type AssessmentScope struct {
 	IncludeControls []string `yaml:"IncludeControls"`
 }
 
-// NewAssessmentScope create an AssessmentScope struct from a given framework id.
+// NewAssessmentScope creates an AssessmentScope struct for a given framework id.
 func NewAssessmentScope(frameworkID string) AssessmentScope {
 	return AssessmentScope{
 		FrameworkID: frameworkID,
 	}
+}
+
+// NewAssessmentScopeFromCDs creates and populates an AssessmentScope struct for a given framework id and set of
+// OSCAL Component Definitions.
+func NewAssessmentScopeFromCDs(frameworkId string, cds ...oscalTypes.ComponentDefinition) (AssessmentScope, error) {
+	scope := NewAssessmentScope(frameworkId)
+	if cds == nil {
+		return AssessmentScope{}, fmt.Errorf("no component definitions found")
+	}
+	for _, componentDef := range cds {
+		if componentDef.Components == nil {
+			continue
+		}
+		for _, component := range *componentDef.Components {
+			if component.ControlImplementations == nil {
+				continue
+			}
+			for _, ci := range *component.ControlImplementations {
+				if ci.ImplementedRequirements == nil {
+					continue
+				}
+				if ci.Props != nil {
+					for _, frameworkVal := range *ci.Props {
+						if scope.FrameworkID == frameworkVal.Value {
+							continue
+						}
+						for _, ir := range ci.ImplementedRequirements {
+							if ir.ControlId != "" {
+								scope.IncludeControls = append(scope.IncludeControls, ir.ControlId)
+							}
+						}
+					}
+					for _, ir := range ci.ImplementedRequirements {
+						if ir.ControlId != "" {
+							scope.IncludeControls = append(scope.IncludeControls, ir.ControlId)
+						}
+					}
+				}
+			}
+		}
+	}
+	return scope, nil
 }
 
 // ApplyScope alters the given OSCAL Assessment Plan based on the AssessmentScope.

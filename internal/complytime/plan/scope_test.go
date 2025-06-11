@@ -6,10 +6,79 @@ import (
 
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 	"github.com/hashicorp/go-hclog"
+	"github.com/oscal-compass/oscal-sdk-go/extensions"
 	"github.com/stretchr/testify/require"
 )
 
-// FIXME: Expand test cases
+func TestNewAssessmentScopeFromCDs(t *testing.T) {
+	_, err := NewAssessmentScopeFromCDs("example")
+	require.EqualError(t, err, "no component definitions found")
+
+	cd := oscalTypes.ComponentDefinition{
+		Components: &[]oscalTypes.DefinedComponent{
+			{
+				Title: "Component",
+				ControlImplementations: &[]oscalTypes.ControlImplementationSet{
+					{
+						Props: &[]oscalTypes.Property{
+							{
+								Name:  extensions.FrameworkProp,
+								Value: "example",
+								Ns:    extensions.TrestleNameSpace,
+							},
+						},
+						ImplementedRequirements: []oscalTypes.ImplementedRequirementControlImplementation{
+							{
+								ControlId: "control-1",
+							},
+							{
+								ControlId: "control-2",
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	wantScope := AssessmentScope{
+		FrameworkID:     "example",
+		IncludeControls: []string{"control-1", "control-2"},
+	}
+	scope, err := NewAssessmentScopeFromCDs("example", cd)
+	require.NoError(t, err)
+	require.Equal(t, wantScope, scope)
+
+	// Reproduce duplicates
+	anotherComponent := oscalTypes.DefinedComponent{
+		Title: "AnotherComponent",
+		ControlImplementations: &[]oscalTypes.ControlImplementationSet{
+			{
+				Props: &[]oscalTypes.Property{
+					{
+						Name:  extensions.FrameworkProp,
+						Value: "example",
+						Ns:    extensions.TrestleNameSpace,
+					},
+				},
+				ImplementedRequirements: []oscalTypes.ImplementedRequirementControlImplementation{
+					{
+						ControlId: "control-1",
+					},
+					{
+						ControlId: "control-2",
+					},
+				},
+			},
+		},
+	}
+	*cd.Components = append(*cd.Components, anotherComponent)
+
+	scope, err = NewAssessmentScopeFromCDs("example", cd)
+	require.NoError(t, err)
+	require.Equal(t, wantScope, scope)
+}
+
 func TestAssessmentScope_ApplyScope(t *testing.T) {
 	testLogger := hclog.NewNullLogger()
 

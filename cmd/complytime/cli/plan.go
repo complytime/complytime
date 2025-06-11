@@ -33,7 +33,7 @@ type planOptions struct {
 	withScopeConfig string
 
 	// Out
-	Output string
+	output string
 }
 
 var planExample = `
@@ -62,20 +62,33 @@ func planCmd(common *option.Common) *cobra.Command {
 		Example: planExample,
 		Args:    cobra.ExactArgs(1),
 		PreRun: func(cmd *cobra.Command, args []string) {
-			if len(args) == 1 {
-				planOpts.complyTimeOpts.FrameworkID = filepath.Clean(args[0])
-			}
+			completePlan(planOpts, args)
 		},
 		RunE: func(cmd *cobra.Command, _ []string) error {
+			if err := validatePlan(planOpts); err != nil {
+				return err
+			}
 			return runPlan(cmd, planOpts)
 		},
 	}
 	cmd.Flags().BoolVar(&planOpts.dryRun, "dry-run", false, "load the defaults and print the config to stdout")
 	cmd.Flags().StringVarP(&planOpts.withScopeConfig, "scope-config", "s", "", "load config.yml to customize the generated assessment plan")
-	// FIXME: Check that dry-run is set of the user pass this in
-	cmd.Flags().StringVarP(&planOpts.Output, "out", "o", "-", "path to output file. Use '-' for stdout. Default '-'.")
+	cmd.Flags().StringVarP(&planOpts.output, "out", "o", "-", "path to output file. Use '-' for stdout. Default '-'.")
 	planOpts.complyTimeOpts.BindFlags(cmd.Flags())
 	return cmd
+}
+
+func completePlan(opts *planOptions, args []string) {
+	if len(args) == 1 {
+		opts.complyTimeOpts.FrameworkID = filepath.Clean(args[0])
+	}
+}
+
+func validatePlan(opts *planOptions) error {
+	if opts.output != "-" && !opts.dryRun {
+		return errors.New("invalid command flags: \"--dry-run\" must be used with \"--out\"")
+	}
+	return nil
 }
 
 func runPlan(cmd *cobra.Command, opts *planOptions) error {
@@ -94,7 +107,7 @@ func runPlan(cmd *cobra.Command, opts *planOptions) error {
 
 	if opts.dryRun {
 		// Write the plan configuration to stdout
-		return planDryRun(opts.complyTimeOpts.FrameworkID, componentDefs, opts.Output)
+		return planDryRun(opts.complyTimeOpts.FrameworkID, componentDefs, opts.output)
 	}
 
 	logger.Debug(fmt.Sprintf("Using bundle directory: %s for component definitions.", appDir.BundleDir()))
@@ -144,42 +157,6 @@ func loadPlan(opts *option.ComplyTime, validator validation.Validator) (*oscalTy
 // planDryRun leverages the AssessmentScope structure to populate tailoring config.
 // The config is written to stdout.
 func planDryRun(frameworkId string, cds []oscalTypes.ComponentDefinition, output string) error {
-	baseScope := plan.NewAssessmentScope(frameworkId)
-	if cds == nil {
-		return fmt.Errorf("no component definitions found")
-	}
-	for _, componentDef := range cds {
-		if componentDef.Components == nil {
-			continue
-		}
-		for _, component := range *componentDef.Components {
-			if component.ControlImplementations == nil {
-				continue
-			}
-			for _, ci := range *component.ControlImplementations {
-				if ci.ImplementedRequirements == nil {
-					continue
-				}
-				if ci.Props != nil {
-					for _, frameworkVal := range *ci.Props {
-						if baseScope.FrameworkID == frameworkVal.Value {
-							continue
-						}
-						for _, ir := range ci.ImplementedRequirements {
-							if ir.ControlId != "" {
-								baseScope.IncludeControls = append(baseScope.IncludeControls, ir.ControlId)
-							}
-						}
-					}
-					for _, ir := range ci.ImplementedRequirements {
-						if ir.ControlId != "" {
-							baseScope.IncludeControls = append(baseScope.IncludeControls, ir.ControlId)
-						}
-					}
-				}
-			}
-		}
-	}
 
 	data, err := yaml.Marshal(&baseScope)
 	if err != nil {

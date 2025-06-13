@@ -22,14 +22,24 @@ func TestPluginOptions(t *testing.T) {
 				Profile:   "testprofile",
 			},
 			wantMap: map[string]string{
-				"workspace": "testworkspace",
-				"profile":   "testprofile",
+				"workspace":      "testworkspace",
+				"profile":        "testprofile",
+				"userconfigroot": "",
 			},
 		},
 		{
 			name:       "Invalid/MissingOptions",
 			selections: PluginOptions{},
 			wantErr:    "workspace must be set",
+		},
+		{
+			name: "Invalid/IncorrectOptions",
+			selections: PluginOptions{
+				Workspace:      "testworkspace",
+				Profile:        "testprofile",
+				UserConfigRoot: "nonexistpath",
+			},
+			wantErr: "user config root does not exist",
 		},
 	}
 

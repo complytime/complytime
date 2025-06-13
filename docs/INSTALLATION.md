@@ -2,10 +2,10 @@
 
 ## Binary
 
-- The latest binary release can be downloaded from <https://github.com/complytime/complytime/releases/latest>.
+- The latest binary release can be downloaded from <https://github.com/complytime/complyctl/releases/latest>.
 - The release signature can be verified with:
   ```
-  cosign verify-blob --certificate complytime_*_checksums.txt.pem --signature complytime_*_checksums.txt.sig complytime_*_checksums.txt --certificate-oidc-issuer=https://token.actions.githubusercontent.com --certificate-identity=https://github.com/complytime/complytime/.github/workflows/release.yml@refs/heads/main
+  cosign verify-blob --certificate complytime_*_checksums.txt.pem --signature complytime_*_checksums.txt.sig complytime_*_checksums.txt --certificate-oidc-issuer=https://token.actions.githubusercontent.com --certificate-identity=https://github.com/complytime/complyctl/.github/workflows/release.yml@refs/heads/main
   ```
 
 
@@ -20,7 +20,7 @@
 ### Clone the repository
 
 ```bash
-git clone https://github.com/complytime/complytime.git
+git clone https://github.com/complytime/complyctl.git
 cd complytime
 ```
 

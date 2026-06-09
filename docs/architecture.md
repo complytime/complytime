@@ -5,17 +5,17 @@ Component vocabulary for ComplyTime. This document names the functional roles an
 ## Component Map
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                      Content Registry                           │
-│  ┌──────────────────┐   ┌──────────────────┐                    │
-│  │ Compliance        │  │ Assessment       │                    │
-│  │ Content           │  │ Logic            │                    │
-│  │ (policies,        │  │ (evaluation      │                    │
-│  │  catalogs)        │  │  packages)       │                    │
-│  └────────┬──────────┘  └────────┬─────────┘                    │
-└───────────┼──────────────────────┼──────────────────────────────┘
-            │                      │
-            ▼                      ▼
+┌──────────────────────────────────────┐  ┌─────────────────────────┐
+│          Content Registry            │  │  Cross-Framework        │
+│  ┌──────────────┐  ┌──────────────┐  │  │  Mapping                │
+│  │ Compliance   │  │ Assessment   │  │  │                         │
+│  │ Content      │  │ Logic        │  │  │  Relationship graph,    │
+│  │ (policies,   │  │ (evaluation  │  │  │  standard comparison,   │
+│  │  catalogs)   │  │  packages)   │  │  │  traceability           │
+│  └──────┬───────┘  └──────┬───────┘  │  └─────────────────────────┘
+└─────────┼─────────────────┼──────────┘
+          │                 │
+          ▼                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                     Runtime Client                              │
 │                                                                 │
@@ -73,6 +73,10 @@ Standalone processes that perform data collection and evaluation. Each evaluator
 
 Ingests, stores, and verifies compliance evidence produced by evaluators. Provides posture analytics and evidence traceability. See the [Evidence](problems/evidence.md) problem doc for the domain exploration.
 
+### Cross-Framework Mapping
+
+Compares compliance standards, maps relationships between requirements across frameworks, and stores the complete graph with traceability. Enables organizations assessed against multiple frameworks to understand overlapping requirements without manual spreadsheet exercises. See the [Cross-Framework Mapping](problems/cross-framework-mapping.md) problem doc for the domain exploration.
+
 ### Audit Preparation
 
 Consumes stored evidence to support audit activities — analysis, artifact drafting, and reporting. Downstream of the evidence platform.
@@ -84,6 +88,7 @@ Consumes stored evidence to support audit activities — analysis, artifact draf
 | Content Registry | Operational | OCI registries via oras-go |
 | Runtime Client | Operational | [complyctl](https://github.com/complytime/complyctl) |
 | Evaluators | Operational | [complytime-providers](https://github.com/complytime/complytime-providers) (OpenSCAP, AMPEL); OPA in development |
+| Cross-Framework Mapping | Experimental | [crosscodex](https://github.com/complytime-labs/crosscodex) |
 | Evidence Platform | Experimental | [complytime-core](https://github.com/complytime/complytime-core) |
 | Audit Preparation | Experimental | [complytime-studio](https://github.com/complytime-labs/complytime-studio) |
 

@@ -5,6 +5,7 @@
 - **Problems**
   - [Requirement Fidelity](problems/requirement-fidelity.md)
   - [Evaluator Coupling](problems/evaluator-coupling.md)
+  - [Cross-Framework Mapping](problems/cross-framework-mapping.md)
   - [Evidence](problems/evidence.md)
 
 - **Plans**

@@ -14,6 +14,7 @@ This repo is a living design document exploring how compliance assessment become
 - **[docs/problems/](docs/problems/)** — Deep dives into each technical problem domain:
   - [Requirement Fidelity](docs/problems/requirement-fidelity.md) — Preserving meaning and rationale as requirements cross functional boundaries
   - [Evaluator Coupling](docs/problems/evaluator-coupling.md) — Verification logic tied to specific tools and runtimes
+  - [Cross-Framework Mapping](docs/problems/cross-framework-mapping.md) — Overlapping requirements across standards with no machine-readable mapping
   - [Evidence](docs/problems/evidence.md) — Fragmented, manual, and opaque compliance evidence
 - **[docs/plans/](docs/plans/)** — Implementation plans for accepted designs
 - **[docs/ADRs/](docs/ADRs/)** — Architecture Decision Records for crystallized decisions

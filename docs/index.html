@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ComplyTime Design</title>
+    <meta name="description" content="Living design document for automated compliance assessment in cloud-native systems." />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      window.$docsify = {
+        name: 'ComplyTime',
+        repo: 'https://github.com/complytime/complytime',
+        loadSidebar: true,
+        subMaxLevel: 3,
+        auto2top: true,
+        search: {
+          placeholder: 'Search',
+          noData: 'No results.',
+          depth: 3,
+        },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  </body>
+</html>

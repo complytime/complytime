@@ -10,6 +10,7 @@
 
 - **Plans**
   - [ComplyPack Phase 0](plans/complypack-phase0.md)
+  - [ComplyPack Phase 1](plans/complypack-phase1.md)
 
 - **ADRs**
   - [0001 Use ADRs](ADRs/0001-use-adrs.md)

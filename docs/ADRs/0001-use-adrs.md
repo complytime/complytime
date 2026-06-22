@@ -27,3 +27,4 @@ The prior CEP process is retired. Existing CEP content is migrated into ADRs (fo
 - The bar for recording a decision is lower (one page vs. multi-page CEP).
 - Problem exploration moves to `docs/problems/` where it can evolve without the formality of a proposal lifecycle.
 - Historical decisions from OpenSpec specs and PRs can be retroactively captured.
+- ADR acceptance requires two maintainer approvals (see [CONTRIBUTING.md](../../CONTRIBUTING.md#process) for the full approval process).

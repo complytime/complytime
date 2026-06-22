@@ -18,6 +18,24 @@ Compliance practitioners know their domains well. The work is rigorous and the r
 
 5. **Trust depends on institutional knowledge** — Assessment content runs, results appear, and experienced practitioners know what to trust. But that trust lives in people's heads — nothing structural connects the authority document to the check to the evidence to the finding. That works until the people rotate, the team scales, or an external auditor asks for proof.
 
+## How
+
+ComplyTime addresses these problems through architectural choices at different stages of maturity.
+
+**Decided and operational:**
+
+1. **Separate what from how** — Compliance content (what must be true) and assessment logic (how to verify it) are independent streams with independent lifecycles and authorship. Neither is locked to a single tool or vendor. ([ADR-0005](ADRs/0005-two-stream-content-model.md))
+
+2. **Route generically, evaluate specifically** — A single runtime client discovers and orchestrates evaluators without understanding their internal logic. Evaluator plugins handle the mapping between their native results and the common evidence model. ([ADR-0004](ADRs/0004-grpc-provider-plugin-architecture.md))
+
+3. **Distribute as OCI artifacts** — Compliance content and assessment logic are packaged as ComplyPacks and distributed through standard OCI registries. The same infrastructure that moves container images moves compliance content. ([ADR-0003](ADRs/0003-oci-artifact-distribution.md), [ADR-0006](ADRs/0006-complypack-content-envelope.md))
+
+**Under active exploration:**
+
+4. **Structure evidence end-to-end** — Every assessment should produce structured, queryable evidence traceable to the requirement it addresses. Evidence should be a first-class artifact with provenance, not a byproduct buried in tool-specific logs. ([Evidence problem doc](problems/evidence.md))
+
+5. **Compose compliance postures explicitly** — Policy layering, overrides, and exceptions should be expressed as composable operations with deterministic resolution. The effective policy should be derivable, never implicit. ([Requirement Fidelity problem doc](problems/requirement-fidelity.md))
+
 ## Principles
 
 Properties any solution in this space should exhibit:

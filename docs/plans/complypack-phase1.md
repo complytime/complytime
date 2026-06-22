@@ -2,7 +2,7 @@
 
 Implementation plan for the OPA evaluation provider that consumes ComplyPack content.
 
-**Status:** not-started
+**Status:** in-progress
 
 **Related ADRs:** [0004](../ADRs/0004-grpc-provider-plugin-architecture.md), [0006](../ADRs/0006-complypack-content-envelope.md)
 
@@ -14,4 +14,4 @@ Ship a native OPA provider that receives ComplyPack content from the runtime cli
 
 ## Scope
 
-_To be defined once Phase 0 is complete._
+_To be defined._

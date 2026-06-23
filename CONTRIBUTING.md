@@ -46,9 +46,10 @@ Use the template at `docs/ADRs/adr-template.md`. Keep them short. One page maxim
 
 1. Fork and create a branch
 2. Make your changes
-3. Open a PR with a descriptive title (`docs: expand evaluator-coupling problem doc`)
-4. Address review feedback
-5. Merge requires maintainer approval (one for problem docs, two for ADRs/plans)
+3. Update `docs/_sidebar.md` if you added or renamed any documents
+4. Open a PR with a descriptive title (`docs: expand evaluator-coupling problem doc`)
+5. Address review feedback
+6. Merge requires maintainer approval (one for problem docs, two for ADRs/plans)
 
 ## Implementation Code
 
@@ -56,6 +57,7 @@ Implementation lives in separate repositories:
 - [complyctl](https://github.com/complytime/complyctl) — CLI runtime
 - [complytime-providers](https://github.com/complytime/complytime-providers) — scanning providers
 - [complypack](https://github.com/complytime/complypack) — pack authoring and packaging
+- [complytime-collector-components](https://github.com/complytime/complytime-collector-components) — reusable data collection components
 - [complytime-policies](https://github.com/complytime/complytime-policies) — published policy bundles
 
 This repo is for design exploration. Implementation PRs reference design docs here.

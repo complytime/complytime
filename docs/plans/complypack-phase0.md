@@ -2,7 +2,7 @@
 
 Implementation plan for the ComplyPack OCI distribution envelope. Extracted from CEP-0001.
 
-**Status:** in-progress
+**Status:** complete
 
 **Related ADRs:** [0003](../ADRs/0003-oci-artifact-distribution.md), [0005](../ADRs/0005-two-stream-content-model.md), [0006](../ADRs/0006-complypack-content-envelope.md)
 

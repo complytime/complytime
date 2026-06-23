@@ -63,7 +63,7 @@ Distributes two independent streams: compliance content (what must be true) and 
 
 ### Runtime Client
 
-Pulls content, resolves policies, discovers evaluators, orchestrates scans, merges results. Never interprets evaluator-specific content — routes by metadata only.
+Pulls content, resolves policies, discovers evaluators, orchestrates scans, merges results. The core client routes evaluator content by metadata without interpreting it. Evaluator plugins within the client boundary handle the mapping between evaluator-specific results and the common evidence model.
 
 ### Evaluators
 

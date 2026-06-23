@@ -36,6 +36,12 @@ ComplyTime addresses these problems through architectural choices at different s
 
 5. **Compose compliance postures explicitly** — Policy layering, overrides, and exceptions should be expressed as composable operations with deterministic resolution. The effective policy should be derivable, never implicit. ([Requirement Fidelity problem doc](problems/requirement-fidelity.md))
 
+### Evaluator Migration
+
+Decisions 1 and 2 produce a capability worth naming explicitly: existing compliance content communities can migrate between evaluation engines without rewriting their content or losing assessment history.
+
+Because the requirement identity is decoupled from the evaluator, ComplyTime supports **multi-evaluator mapping** — a legacy evaluator and a modern evaluator can run side-by-side against the same requirement, verifying output parity before cutover. Migration becomes gradual and verifiable rather than a risky rewrite. The requirement's identity, evidence chain, and compliance posture remain continuous regardless of which evaluator is replaced underneath. See [Evaluator Coupling](problems/evaluator-coupling.md) for the problem this addresses.
+
 ## Principles
 
 Properties any solution in this space should exhibit:

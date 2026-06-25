@@ -1,33 +1,33 @@
 ## 1. Problem Documentation (complytime repo)
 
-- [ ] 1.1 Write problem doc `docs/problems/release-communication.md` covering the version label perception gap, multi-repo coordination challenge, unpredictable release cadence, and the missing downstream translation layer. Reference existing architecture.md and ADRs for context.
-- [ ] 1.2 [P] Update `docs/_sidebar.md` to include the new problem doc under the Problems section.
-- [ ] 1.3 [P] Update `README.md` "What's here" section to reference the new problem doc.
+- [x] 1.1 Write problem doc `docs/problems/release-communication.md` covering the version label perception gap, multi-repo coordination challenge, unpredictable release cadence, and the missing downstream translation layer. Reference existing architecture.md and ADRs for context.
+- [x] 1.2 [P] Update `docs/_sidebar.md` to include the new problem doc under the Problems section.
+- [x] 1.3 [P] Update `README.md` "What's here" section to reference the new problem doc.
 
 ## 2. Architecture Decision Record (complytime repo)
 
-- [ ] 2.1 Write ADR `docs/ADRs/0007-ecosystem-release-strategy.md` documenting the decision to proceed with complyctl v1.0.0, the risk assessment for API stability, the four-tier capability maturity model (Alpha/Beta/Pre-GA/GA), and the ecosystem release process triggered from the complytime repo. Follow the template in `docs/ADRs/adr-template.md`.
-- [ ] 2.2 [P] Update `docs/_sidebar.md` to include ADR-0007.
-- [ ] 2.3 [P] Update `README.md` "What's here" section to reference ADR-0007.
+- [x] 2.1 Write ADR `docs/ADRs/0007-ecosystem-release-strategy.md` documenting the decision to proceed with complyctl v1.0.0, the risk assessment for API stability, the four-tier capability maturity model (Alpha/Beta/Pre-GA/GA), and the ecosystem release process triggered from the complytime repo. Follow the template in `docs/ADRs/adr-template.md`.
+- [x] 2.2 [P] Update `docs/_sidebar.md` to include ADR-0007.
+- [x] 2.3 [P] Update `README.md` "What's here" section to reference ADR-0007.
 
 ## 3. Compatibility Matrix (complytime repo)
 
-- [ ] 3.1 Create `docs/guides/compatibility-matrix.md` with the initial matrix content: capability-oriented rows, maturity levels, validated component versions, last validated date, maturity level definitions, introductory context about release cadence, and footnote about newer versions possibly existing outside the matrix.
-- [ ] 3.2 [P] Update `docs/_sidebar.md` to include the compatibility matrix under Guides with prominent placement.
-- [ ] 3.3 [P] Update `README.md` to reference the compatibility matrix.
+- [x] 3.1 Create `docs/guides/compatibility-matrix.md` with the initial matrix content: capability-oriented rows, maturity levels, validated component versions, last validated date, maturity level definitions, introductory context about release cadence, and footnote about newer versions possibly existing outside the matrix.
+- [x] 3.2 [P] Update `docs/_sidebar.md` to include the compatibility matrix under Guides with prominent placement.
+- [x] 3.3 [P] Update `README.md` to reference the compatibility matrix.
 - [ ] 3.4 Verify the matrix renders correctly on complytime.dev via Docsify.
 
 ## 4. Breaking Change Policy (complytime repo)
 
-- [ ] 4.1 Create `docs/guides/breaking-change-policy.md` covering: rules for v1.x API stability (interface method additions, struct field changes, function signatures, enum values, proto field numbers), the three-layer CI enforcement model with detection mapping table, existing safeguards inventory with explanations, the maintainer override escape hatch (requiring approval from at least two maintainers), and links to ADR-0004 and ADR-0006.
-- [ ] 4.2 [P] Update `docs/_sidebar.md` to include the breaking change policy under Guides.
-- [ ] 4.3 [P] Update `README.md` to reference the breaking change policy.
+- [x] 4.1 Create `docs/guides/breaking-change-policy.md` covering: rules for v1.x API stability (interface method additions, struct field changes, function signatures, enum values, proto field numbers), the three-layer CI enforcement model with detection mapping table, existing safeguards inventory with explanations, the maintainer override escape hatch (requiring approval from at least two maintainers), and links to ADR-0004 and ADR-0006.
+- [x] 4.2 [P] Update `docs/_sidebar.md` to include the breaking change policy under Guides.
+- [x] 4.3 [P] Update `README.md` to reference the breaking change policy.
 
 ## 5. Ecosystem Release Process Guide (complytime repo)
 
-- [ ] 5.1 Create `docs/guides/ecosystem-release-process.md` covering: the release process steps (trigger, gather highlights, update matrix, compose release notes, publish, tag), the `release-highlight` label convention with examples, the capability-oriented release notes template, the tagging convention for ecosystem releases (date-based, e.g., `ecosystem-2026.07`), minimum validation criteria for matrix entries, and the requirement to reference recent ADRs in release notes.
-- [ ] 5.2 [P] Update `docs/_sidebar.md` to include the ecosystem release process guide.
-- [ ] 5.3 [P] Update `README.md` to reference the ecosystem release process guide.
+- [x] 5.1 Create `docs/guides/ecosystem-release-process.md` covering: the release process steps (trigger, gather highlights, update matrix, compose release notes, publish, tag), the `release-highlight` label convention with examples, the capability-oriented release notes template, the tagging convention for ecosystem releases (date-based, e.g., `ecosystem-2026.07`), minimum validation criteria for matrix entries, and the requirement to reference recent ADRs in release notes.
+- [x] 5.2 [P] Update `docs/_sidebar.md` to include the ecosystem release process guide.
+- [x] 5.3 [P] Update `README.md` to reference the ecosystem release process guide.
 
 ## 6. Release Highlight Label Setup (cross-repo)
 
@@ -60,6 +60,6 @@
 
 ## 10. Glossary Update (complytime repo)
 
-- [ ] 10.1 Update `docs/glossary.md` with a "Process Terms" section defining: ecosystem release, compatibility matrix, capability maturity level (Alpha/Beta/Pre-GA/GA), Pre-GA, and release highlight.
-- [ ] 10.2 [P] Update `docs/_sidebar.md` if the glossary section needs structural changes.
+- [x] 10.1 Update `docs/glossary.md` with a "Process Terms" section defining: ecosystem release, compatibility matrix, capability maturity level (Alpha/Beta/Pre-GA/GA), Pre-GA, and release highlight.
+- [x] 10.2 [P] Update `docs/_sidebar.md` if the glossary section needs structural changes.
 <!-- spec-review: passed -->

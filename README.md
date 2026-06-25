@@ -16,9 +16,13 @@ This repo is a living design document exploring how compliance assessment become
   - [Evaluator Coupling](docs/problems/evaluator-coupling.md) — Verification logic tied to specific tools and runtimes
   - [Cross-Framework Mapping](docs/problems/cross-framework-mapping.md) — Overlapping requirements across standards with no machine-readable mapping
   - [Evidence](docs/problems/evidence.md) — Fragmented, manual, and opaque compliance evidence
+  - [Release Communication](docs/problems/release-communication.md) — Misalignment between Go semver conventions and stakeholder expectations across a multi-repo ecosystem
+- **[docs/guides/](docs/guides/)** — Practical how-to documentation:
+  - [Compatibility Matrix](docs/guides/compatibility-matrix.md) — Validated component combinations with capability maturity levels
+  - [Ecosystem Release Process](docs/guides/ecosystem-release-process.md) — Coordinating ecosystem-wide release communication
+  - [Breaking Change Policy](docs/guides/breaking-change-policy.md) — Rules and CI enforcement for maintaining Go API compatibility
 - **[docs/plans/](docs/plans/)** — Implementation plans for accepted designs
 - **[docs/ADRs/](docs/ADRs/)** — Architecture Decision Records for crystallized decisions
-- **[docs/guides/](docs/guides/)** — Practical how-to documentation
 
 ## How to contribute
 

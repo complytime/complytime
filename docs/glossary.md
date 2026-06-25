@@ -29,3 +29,13 @@ This glossary covers terms specific to ComplyTime.
 | **OCI layout** | On-disk representation of OCI artifacts (per the [OCI Image Layout Specification](https://github.com/opencontainers/image-spec/blob/main/image-layout.md)). Used for caching and transport. |
 | **Provider** | An execution unit that performs data collection and/or evaluation. Discovered by filesystem convention. See [ADR-0004](ADRs/0004-grpc-provider-plugin-architecture.md). |
 | **Two-stream model** | Architectural separation between compliance content (what must be true) and assessment logic (how to verify it). Independent lifecycles, independent authorship. See [ADR-0005](ADRs/0005-two-stream-content-model.md). |
+
+## Process Terms
+
+| Term | Definition |
+|:---|:---|
+| **Capability maturity level** | A four-tier assessment of a capability's readiness across the integrated stack: Alpha (evaluation only), Beta (production with awareness), Pre-GA (stakeholder validation), GA (production supported). Describes capability readiness, not individual component versions. See [compatibility matrix](guides/compatibility-matrix.md). |
+| **Compatibility matrix** | A capability-oriented mapping of stakeholder capabilities to validated component combinations with maturity levels. Represents a point-in-time maintainer sign-off on integration testing, not a live version tracker. See [compatibility matrix](guides/compatibility-matrix.md). |
+| **Ecosystem release** | A maintainer-triggered coordination event in the complytime repository that validates a combination of component versions, gathers release highlights, updates the compatibility matrix, and publishes ecosystem release notes. Distinct from individual repository releases. See [ecosystem release process](guides/ecosystem-release-process.md). |
+| **Pre-GA** | The capability maturity level between Beta and GA. Indicates a capability is feature-complete and validated by maintainers, under stakeholder testing. Deliberately named to avoid collision with Go semver "RC" (Release Candidate) labels. See [ADR-0007](ADRs/0007-ecosystem-release-strategy.md). |
+| **Release highlight** | A cross-repo GitHub label (`release-highlight`) applied by maintainers at PR merge time to flag changes that are visible or relevant to stakeholders. Queried by the ecosystem release process to compose release notes. See [ecosystem release process](guides/ecosystem-release-process.md). |

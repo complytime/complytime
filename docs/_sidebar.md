@@ -7,6 +7,7 @@
   - [Evaluator Coupling](problems/evaluator-coupling.md)
   - [Cross-Framework Mapping](problems/cross-framework-mapping.md)
   - [Evidence](problems/evidence.md)
+  - [Federated Compliance Graphs](problems/federated-compliance-graphs.md)
 
 - **Plans**
   - [ComplyPack Phase 0](plans/complypack-phase0.md)
@@ -19,3 +20,4 @@
   - [0004 gRPC Provider Plugin Architecture](ADRs/0004-grpc-provider-plugin-architecture.md)
   - [0005 Two-Stream Content Model](ADRs/0005-two-stream-content-model.md)
   - [0006 ComplyPack Content Envelope](ADRs/0006-complypack-content-envelope.md)
+  - [0007 Property Graph](ADRs/0007-property-graph.md)

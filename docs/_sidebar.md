@@ -18,3 +18,4 @@
   - [0004 gRPC Provider Plugin Architecture](ADRs/0004-grpc-provider-plugin-architecture.md)
   - [0005 Two-Stream Content Model](ADRs/0005-two-stream-content-model.md)
   - [0006 ComplyPack Content Envelope](ADRs/0006-complypack-content-envelope.md)
+  - [0008 BPMN 2.0 Process Modeling](ADRs/0008-process-modeling-bpmn.md)

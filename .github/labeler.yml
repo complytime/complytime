@@ -1,0 +1,30 @@
+problem:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/problems/**'
+
+adr:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/ADRs/**'
+
+guide:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/guides/**'
+
+plan:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/plans/**'
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - '*.md'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'

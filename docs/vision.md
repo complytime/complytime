@@ -54,6 +54,12 @@ Any solution in this space must exhibit:
 - **Evidence as a first-class artifact**: Assessment results, collected data, and audit artifacts are structured, queryable, and traceable to the requirement they address.
 - **Provenance**: Every link in the chain (authority document to requirement to check to evidence to finding) is auditable.
 
+### Structural precedent
+
+These properties are not novel. [Model-based systems engineering][mbse] (MBSE) has validated them over decades in domains where traceability, lifecycle management, and verification rigor are non-negotiable: aerospace, defense, critical infrastructure. The discipline's core practices — requirements modeled at the source, verification defined independently from design, evidence collected and traced as a first-class concern — map directly to the properties above. Standards like [ISO/IEC/IEEE 15288][iso-15288] (systems lifecycle processes) and frameworks maintained by [INCOSE][incose] formalize these patterns at scale.
+
+The compliance and systems engineering communities have evolved separately, but the problems they solve share a common shape. Recognizing that alignment, rather than reinventing the solutions, is a deliberate choice. It also reflects a practical reality: modern IT systems are critical infrastructure, and the rigor that other critical domains have long required is overdue here.
+
 ## Open by Design
 
 Openness in ComplyTime is a structural requirement of the compliance domain, not a licensing preference. Closed compliance tooling has a poor track record. An architecture built on open, evolvable foundations can adapt as the problem space matures, while a proprietary model bets that one vendor's view of compliance is the right one forever.
@@ -90,3 +96,6 @@ ComplyTime is open because the problem it solves is a shared problem, and shared
 [openssf]: https://openssf.org/
 [oci]: https://opencontainers.org/
 [grpc]: https://grpc.io/
+[mbse]: https://www.incose.org/systems-engineering/se-definitions/model-based-se
+[iso-15288]: https://www.iso.org/standard/82702.html
+[incose]: https://www.incose.org/

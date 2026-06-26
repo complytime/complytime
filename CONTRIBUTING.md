@@ -31,8 +31,11 @@ Problem docs explore a technical domain. They are living documents — expect th
 Structure (suggested, not mandatory):
 1. Why this is hard
 2. Current approaches / prior art
-3. Proposed approaches with trade-offs
+3. Proposed approaches with trade-offs (exploratory — no settled decisions)
 4. Open questions
+5. Cross-references
+
+Do not include a "Decisions" section. When exploration settles a question, extract it to an ADR in a chained PR.
 
 Do not worry about "finishing" a problem doc. Partial explorations with open questions are valuable.
 

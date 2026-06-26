@@ -38,3 +38,8 @@ When contributing to this repo:
 - **ADRs are immutable.** Never edit an accepted ADR. Supersede it with a new one.
 - **Keep the sidebar current.** Update `docs/_sidebar.md` when adding new documents.
 - **Link new docs in the README.** The "What's here" section in `README.md` is the entry point.
+- **Problem docs have no decisions.** Problem docs may contain "Proposed approaches" for exploration, but settled decisions must be extracted to ADRs before merge. Sections titled "Decisions", "Settled questions", or "Resolution status" in problem docs are a review blocker.
+- **One logical change per PR.** Do not bundle unrelated document changes. If a problem exploration leads to a decision, the decision goes in a chained ADR PR, not the same PR.
+- **Chain PRs for problem → ADR pairs.** The problem doc PR targets main. The ADR PR targets the problem doc branch. GitHub shows the dependency. Reviewers can approve the problem doc independently.
+- **Evidence semantics belong in Gemara.** Problem docs describe *why* evidence is hard. Schema-level semantics (freshness models, confidence descriptors, envelope schemas) belong in the Gemara repository, not in problem docs.
+- **Vendor-neutral problem statements.** Problem docs describe approaches generically. Specific vendor/product names belong in "Current approaches / prior art" sections, not in proposed approaches.

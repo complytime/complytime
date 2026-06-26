@@ -64,3 +64,13 @@ Organizations accumulate checks. A small team starts with 20 policies. Three yea
 - What is the right boundary between "platform" (routes content to evaluators) and "evaluator" (executes checks)?
 - How do manual and automated evaluation results unify without forcing manual assessment into formats designed for machine evaluation?
 - When a requirement spans intent and behavioral evaluation, who owns the coupling between the two evaluators — the compliance engineer, the operations team, or an integration layer?
+
+## Resolution status
+
+1. **Is full evaluator independence achievable?** Resolved. Engine diversity is accepted as permanent. Data coupling is broken by the unified property graph. Logic coupling to the engine's native language is accepted and managed by the platform through routing and result unification. See [ADR-0008](../ADRs/0008-evaluator-interface-contract.md).
+
+2. **What is the right boundary between platform and evaluator?** Resolved. The platform sends scoped payloads (message-passing); evaluators return structured findings. Cross-entity graph access is opt-in with strict authorization. See [ADR-0008](../ADRs/0008-evaluator-interface-contract.md).
+
+3. **How do manual and automated evaluation results unify?** Partially resolved. Both map to requirements in the property graph. The unified evidence model is under exploration. See [evidence.md](evidence.md) for the expanded problem exploration.
+
+4. **Who owns the coupling between intent and behavioral evaluators?** Resolved. The requirement declares what evaluation forms are needed; the assessment logic declares how to compose results. The Runtime Client executes but does not define composition. See [ADR-0008](../ADRs/0008-evaluator-interface-contract.md).

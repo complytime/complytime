@@ -70,7 +70,7 @@ Network traffic observation is higher friction. It requires agents, access to ne
 
 ## Open questions
 
-System modeling for compliance raises questions about schema representation, discovery scope, query architecture, drift semantics, ephemeral infrastructure, and abstraction depth that require architectural decisions. See [ADR-0008](../ADRs/0008-evaluator-interface-contract.md) for the evaluator interface decisions and the broader system modeling ADRs as they crystallize.
+System modeling for compliance raises questions about schema representation, discovery scope, query architecture, drift semantics, ephemeral infrastructure, and abstraction depth that require architectural decisions. See [ADR-0008](../ADRs/0008-evaluator-interface-contract.md) for the evaluator interface contract and [ADR-0015](../ADRs/0015-system-modeling-architecture.md) for the system modeling architecture decisions that have crystallized from this exploration.
 
 See [Evaluator Coupling](evaluator-coupling.md) for how verification logic is tied to specific infrastructure types, creating the fragmentation that a unified system model could address.
 

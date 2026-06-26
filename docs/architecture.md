@@ -1,6 +1,6 @@
 # Architecture
 
-Component vocabulary for ComplyTime. This document names the functional roles and describes how they relate — not how they work internally or which repositories implement them.
+Component vocabulary for ComplyTime. This document names the functional roles and describes how they relate (not how they work internally or which repositories implement them.
 
 ## Component Map
 
@@ -63,11 +63,11 @@ Distributes two independent streams: compliance content (what must be true) and 
 
 ### Runtime Client
 
-Pulls content, resolves policies, discovers evaluators, orchestrates scans, merges results. The core client routes evaluator content by metadata without interpreting it. Evaluator plugins within the client boundary handle the mapping between evaluator-specific results and the common evidence model.
+Pulls content, resolves policies, discovers evaluators, orchestrates scans, merges results. Never interprets evaluator-specific content — routes by metadata only.
 
 ### Evaluators
 
-Standalone processes that perform data collection and evaluation. Each evaluator owns its collection and evaluation logic entirely. The runtime client never participates in evaluation.
+Standalone processes that receive scoped system-state payloads from the Runtime Client and return structured findings. Each evaluator owns its evaluation logic in its native engine language. The default interface is message-passing; evaluators requiring cross-entity reasoning can request read-only access to a scoped subgraph of the property graph. The Runtime Client never participates in evaluation. See [ADR-0008](ADRs/0008-evaluator-interface-contract.md) for the interface contract.
 
 ### Evidence Platform
 
@@ -100,5 +100,6 @@ Supporting repositories: [complypack](https://github.com/complytime/complypack) 
 |:--------------|:------------------|:------------------|:--------------------|
 | Distribution  | Content registry  | Runtime client    | Content pull        |
 | Orchestration | Runtime client    | Evaluators        | Plugin interface    |
+| Graph access  | Runtime client    | Evaluators        | Scoped subgraph query (opt-in) |
 | Evidence      | Evaluators        | Evidence platform | Evidence submission |
 | Audit         | Evidence platform | Audit preparation | Evidence query      |

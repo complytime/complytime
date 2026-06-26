@@ -7,6 +7,7 @@
   - [Evaluator Coupling](problems/evaluator-coupling.md)
   - [Cross-Framework Mapping](problems/cross-framework-mapping.md)
   - [Evidence](problems/evidence.md)
+  - [Process Modeling](problems/process-modeling.md)
 
 - **Plans**
   - [ComplyPack Phase 0](plans/complypack-phase0.md)

@@ -43,3 +43,11 @@ When contributing to this repo:
 - **Chain PRs for problem → ADR pairs.** The problem doc PR targets main. The ADR PR targets the problem doc branch. GitHub shows the dependency. Reviewers can approve the problem doc independently.
 - **Evidence semantics belong in Gemara.** Problem docs describe *why* evidence is hard. Schema-level semantics (freshness models, confidence descriptors, envelope schemas) belong in the Gemara repository, not in problem docs.
 - **Vendor-neutral problem statements.** Problem docs describe approaches generically. Specific vendor/product names belong in "Current approaches / prior art" sections, not in proposed approaches.
+
+### Document Formatting
+
+When a document type has a template, use **only** the headings defined in that template. Do not invent, extend, rename, or omit required headings. The template is the single source of truth for document structure — including which sections are required, which are optional, and what content constraints apply to each.
+
+**ADRs** follow the [MADR 4.0 template](docs/ADRs/adr-template.md). The template marks optional sections explicitly; all other sections are required. Remove optional sections entirely rather than leaving them empty. Do not add headings not present in the template.
+
+**Problem docs** use a suggested structure (see [CONTRIBUTING.md](CONTRIBUTING.md)) but are not template-bound. Headings may vary to suit the exploration.

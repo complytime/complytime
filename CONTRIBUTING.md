@@ -20,7 +20,7 @@ Issue → Problem Doc → ADR → Plan → Implementation (in separate repos)
 ### What goes where
 
 - **`docs/problems/`** — Open-ended explorations. No formal approval gate beyond PR review. Multiple approaches can coexist. Anyone can expand.
-- **`docs/ADRs/`** — Short, decisive records. State what was decided, why, and what the consequences are. Use the [ADR template](docs/ADRs/adr-template.md).
+- **`docs/ADRs/`** — Decisive records. State what was decided, why, and what the consequences are. Use the [ADR template](docs/ADRs/adr-template.md).
 - **`docs/plans/`** — Phased implementation breakdowns for accepted designs. Reference ADRs and problem docs.
 - **`docs/guides/`** — Practical how-to documentation for operators and developers.
 
@@ -43,7 +43,7 @@ Do not worry about "finishing" a problem doc. Partial explorations with open que
 
 ADRs record decisions that have been made. They are immutable once accepted — if a decision is reversed, write a new ADR that supersedes the old one.
 
-Use the template at `docs/ADRs/adr-template.md`. Keep them short. One page maximum.
+ADRs follow [MADR 4.0](https://adr.github.io/madr/) adapted to project conventions. Use the template at [`docs/ADRs/adr-template.md`](docs/ADRs/adr-template.md) and use only the headings it defines — do not invent or extend the heading structure. See [AGENTS.md](AGENTS.md#document-formatting) for the full list of required and optional sections.
 
 ## Process
 

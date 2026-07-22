@@ -49,6 +49,9 @@ The MADR 4.0 template uses YAML frontmatter for metadata (`status`, `date`, `dec
 - Good, because YAML frontmatter enables automated index generation and status tracking without custom parsing.
 - Good, because markdownlint configuration from MADR can enforce formatting consistency in CI.
 - Neutral, because the project takes a dependency on an external template's conventions. MADR's dual MIT/CC0 license and self-contained Markdown format mean this dependency is effectively zero-cost: no runtime dependency, no build dependency, no license encumbrance. If MADR were abandoned, the template remains usable as-is.
+- Bad, because our current `Docsify` implementation strips YAML frontmatter as [prescribed by MADR](https://adr.github.io/madr/decisions/0013-use-yaml-front-matter-for-meta-data.html)
+  - The remediation is to incorporate [Docisfy-mustache](https://docsify-mustache.github.io/#/) into our build system
+    which may be an overall usability improvement in the long term
 - Bad, because writing overhead per ADR increases. The template has more sections to fill. This is the intended tradeoff: the cost is borne once at authoring time; the benefit is realized on every subsequent read.
 - Bad, because historical ADRs ([0001](0001-use-adrs.md)–[0006](0006-complypack-content-envelope.md)) use the prior format. Readers encounter two formats when browsing the full record. This is a documentation consistency cost accepted in favor of immutability.
 

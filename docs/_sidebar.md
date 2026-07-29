@@ -7,6 +7,7 @@
   - [Evaluator Coupling](problems/evaluator-coupling.md)
   - [Cross-Framework Mapping](problems/cross-framework-mapping.md)
   - [Evidence](problems/evidence.md)
+  - [System Modeling and Drift](problems/system-modeling-and-drift.md)
   - [Process Modeling](problems/process-modeling.md)
 
 - **Plans**
@@ -20,3 +21,4 @@
   - [0004 gRPC Provider Plugin Architecture](ADRs/0004-grpc-provider-plugin-architecture.md)
   - [0005 Two-Stream Content Model](ADRs/0005-two-stream-content-model.md)
   - [0006 ComplyPack Content Envelope](ADRs/0006-complypack-content-envelope.md)
+  - [0010 BPMN 2.0 Process Modeling](ADRs/0010-process-modeling-bpmn.md)

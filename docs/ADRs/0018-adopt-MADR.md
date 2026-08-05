@@ -29,6 +29,10 @@ Alternatives evaluated:
 3. Nygard's original format (the 2011 blog post that started the ADR movement). Captures Status, Context, Decision, and Consequences. Structurally identical to the current template. Does not add the sections we are missing.
 4. Design a custom template. Maximum flexibility but creates an undocumented format that new contributors must learn from scratch. No community validation, no linting tooling, no external documentation. Maintenance burden falls entirely on this project.
 
+## :stop_sign: Do I even need an ADR?
+
+If there is only one viable alternative, then an ADR is not required but may be submitted if the information is broadly scoped and may be useful to future maintainers.
+
 ## Decision
 
 Adopt MADR 4.0 as the ADR format for all new architectural decision records.
@@ -37,7 +41,17 @@ The project ADR template (`docs/ADRs/adr-template.md`) is replaced with a MADR 4
 
 Existing accepted ADRs remain as-is. Per [ADR-0001](0001-use-adrs.md), accepted records are immutable. Format consistency across the historical record is not a goal; decision preservation is.
 
-New ADRs must include: Context and Problem Statement, Decision Drivers, Considered Options (at least two alternatives beyond the chosen option), Decision Outcome with a "because" clause referencing a listed driver, and Consequences with positive and negative entries. The Pros and Cons of the Options and More Information sections are recommended for complex decisions but not required.
+New ADRs must include:
+
+- Context and Problem Statement
+- Decision Drivers
+- Considered Options
+  - Not required for simple decisions
+  - Provide as many options as is _practical_
+  - Three is generally a good target with one (favored) at the top and two rejected alternatives
+- Decision Outcome with a "because" clause referencing a listed driver
+- Consequences with positive and negative entries
+- `Pros and Cons of the Options` and `More Information` sections are recommended for complex decisions but not required.
 
 The MADR 4.0 template uses YAML frontmatter for metadata (`status`, `date`, `deciders`, `consulted`, `informed`) rather than inline bold fields. This aligns with machine-parseable conventions and enables future tooling (index generation, status filtering) without fragile text parsing.
 

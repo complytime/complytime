@@ -34,7 +34,7 @@ Chosen option: **Story-level scoping with commit boundaries**, because it elimin
 
 ### Consequences
 
-- **Positive:** Agents fix issues in-situ instead of filing tickets, eliminating the deferred cold-start cost. Story-level sessions amortize the ~85% input-token overhead across all related tasks. Review remains structured because reviewers can walk commits sequentially. Aligns with the ["boy scout rule"](https://lawsofsoftwareengineering.com/laws/boy-scout-rule/) (leave the codebase cleaner than you found it) rather than conflicting with it.
+- **Positive:** Agents fix issues in-situ instead of filing tickets, eliminating the deferred cold-start cost. Story-level sessions amortize the ~85% input-token overhead across all related tasks. Review remains structured because reviewers can walk commits sequentially. Aligns with the ["scout rule"](https://lawsofsoftwareengineering.com/laws/boy-scout-rule/) (leave the codebase cleaner than you found it) rather than conflicting with it.
 - **Negative:** PRs are larger and require reviewer discipline to evaluate commit-by-commit rather than as a single diff. Opportunistic fixes may occasionally introduce unrelated regressions. Blame granularity is coarser at the PR level (though commit-level blame remains intact). Teams accustomed to task-level PRs will need process adjustment.
 
 ## Pros and Cons of the Options

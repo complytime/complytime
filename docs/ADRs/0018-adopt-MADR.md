@@ -1,6 +1,6 @@
 # ADR-0018: Adopt MADR as ADR Format
 
-**Status:** proposed
+**Status:** accepted
 
 **Date:** 2026-07-21
 

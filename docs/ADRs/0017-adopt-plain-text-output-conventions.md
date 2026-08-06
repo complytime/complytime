@@ -1,6 +1,6 @@
 # Adopt plain-text output conventions (`NO_COLOR` and emoji suppression)
 
-**Status:** proposed
+**Status:** accepted
 
 **Date:** 2026-07-17
 

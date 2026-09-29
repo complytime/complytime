@@ -19,6 +19,7 @@
   - [0004 gRPC Provider Plugin Architecture](ADRs/0004-grpc-provider-plugin-architecture.md)
   - [0005 Two-Stream Content Model](ADRs/0005-two-stream-content-model.md)
   - [0006 ComplyPack Content Envelope](ADRs/0006-complypack-content-envelope.md)
+  - [0007 Ecosystem Compatibility Model](ADRs/0007-ecosystem-compatibility-model.md)
   - [0017 Plain-Text Output Conventions](ADRs/0017-adopt-plain-text-output-conventions.md)
   - [0018 Adopt MADR](ADRs/0018-adopt-MADR.md)
   - [0019 Event-Driven Ingestion](ADRs/0019-event-driven-ingestion.md)
